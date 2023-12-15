@@ -3,7 +3,7 @@ import json
 
 class Database:
     def __init__(self):
-        self.dbname = "parent-student  tracking"
+        self.dbname = "empowerhr"
         self.dbuser = "root"
         self.dbpassword = ""
         self.dbhost = "localhost"
