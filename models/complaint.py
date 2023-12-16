@@ -71,13 +71,20 @@ def get_complaints():
         return jsonify({'error': 'An error occurred while fetching complaints'}), 500
 
 
-@complaints_bp.route('/deletecomplaints/<int:complaint_id>', methods=['DELETE'])
-def delete_complaint(complaint_id):
-    query = "sp_deletecomplaint"
-    args = (complaint_id,)
-    db = Database()
-    db.execute_query(query, args)
+@complaints_bp.route('/deletecomplaint/<int:complaintid>', methods=['POST'])
+def delete_complaint(complaintid):
+    try:
+        db = Database()
+        query = "call sp_deletecomplaint(%s)"
+        args = (complaintid,)
+        db.execute_query(query, args)
 
-    print("Complaint deleted successfully from database")
+        print("Complaint deleted successfully")
 
-    return jsonify({'message': 'Complaint deleted successfully'}), 200
+        return jsonify({'message': 'Complaint deleted successfully'}), 200
+
+    except Exception as e:
+        print("Error:", e)
+        return jsonify({'error': 'An error occurred'}), 500
+
+
