@@ -3,20 +3,28 @@ from db import Database
 
 suggestions_bp = Blueprint('suggestions', __name__)
 
+class suggestion:
+    def __init__(self,suggestionid,employeeid,description,status):
+        self.suggestionid = suggestionid
+        self.employeeid = employeeid
+        self.description = description
+        self.status = status
+
 @suggestions_bp.route('/savesuggestion', methods=['POST'])
 def add_suggestion():
     data = request.json
-    suggestion_id = data.get('suggestion_id')
-    employee_id = data.get('employee_id')
-    suggestion_text = data.get('suggestion_text')
+    suggestionid = data.get('suggestionid')
+    employeeid = data.get('employeeid')
+    description = data.get('description')
+    status = data.get('status')
 
-    if suggestion_id is None or not employee_id or not suggestion_text:
-        return jsonify({'error': 'All fields (suggestion_id, employee_id, suggestion_text) are required'}), 400
+    if suggestionid is None or not employeeid or not description or not status:
+        return jsonify({'error': 'All fields (suggestionid, employeeid, description, status) are required'}), 400
 
     try:
         db = Database()
-        query = "call sp_savesuggestion(%s, %s, %s)"
-        args = (suggestion_id, employee_id, suggestion_text)
+        query = "call sp_savesuggestion(%s, %s, %s, %s)"
+        args = (suggestionid, employeeid, description, status)
         db.execute_query(query, args)
 
         print("Suggestion saved successfully")
@@ -36,9 +44,10 @@ def get_suggestions():
         suggestions_data = db.get_data(query, multi=True)
 
         field_names = [
-            'suggestion_id',
-            'employee_id',
-            'suggestion_text'
+            'suggestionid',
+            'employeeid',
+            'description',
+            'status'
         ]
 
         suggestions_list = []
@@ -52,7 +61,7 @@ def get_suggestions():
         print("Error fetching suggestions:", str(e))
         return jsonify({'error': 'An error occurred while fetching suggestions'}), 500
 
-@suggestions_bp.route('/deletesuggestion/<int:suggestion_id>', methods=['DELETE'])
+@suggestions_bp.route('/deletesuggestion/<int:suggestion_id>', methods=['POST'])
 def delete_suggestion(suggestion_id):
     try:
         db = Database()

@@ -3,19 +3,24 @@ from db import Database
 
 roles_bp = Blueprint('roles', __name__)
 
+class role:
+    def __init__(self,roleid,rolename):
+        self.roleid = roleid
+        self.rolename = rolename
+
 @roles_bp.route('/saverole', methods=['POST'])
 def add_role():
     data = request.json
-    role_id = data.get('role_id')
-    role_name = data.get('role_name')
+    roleid = data.get('roleid')
+    rolename = data.get('rolename')
 
-    if role_id is None or not role_name:
+    if roleid is None or not rolename:
         return jsonify({'error': 'All fields (role_id, role_name) are required'}), 400
 
     try:
         db = Database()
         query = "call sp_saverole(%s, %s)"
-        args = (role_id, role_name)
+        args = (roleid, rolename)
         db.execute_query(query, args)
 
         print("Role saved successfully")
@@ -35,8 +40,8 @@ def get_roles():
         roles_data = db.get_data(query, multi=True)
 
         field_names = [
-            'role_id',
-            'role_name'
+            'roleid',
+            'rolename'
         ]
 
         roles_list = []
@@ -50,7 +55,7 @@ def get_roles():
         print("Error fetching roles:", str(e))
         return jsonify({'error': 'An error occurred while fetching roles'}), 500
 
-@roles_bp.route('/deleterole/<int:role_id>', methods=['DELETE'])
+@roles_bp.route('/deleterole/<int:role_id>', methods=['POST'])
 def delete_role(role_id):
     try:
         db = Database()

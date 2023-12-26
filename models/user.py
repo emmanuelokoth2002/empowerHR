@@ -3,21 +3,30 @@ from db import Database
 
 users_bp = Blueprint('users', __name__)
 
+class user:
+    def __init__(self,userid,employeeid,username,password,email):
+        self.userid = userid
+        self.employeeid = employeeid
+        self.username = username
+        self.password = password
+        self.email = email
+
 @users_bp.route('/saveuser', methods=['POST'])
 def add_user():
     data = request.json
-    user_id = data.get('user_id')
+    userid = data.get('userid')
+    employeeid = data.get('employeeid')
     username = data.get('username')
     password = data.get('password')
     email = data.get('email')
 
-    if user_id is None or not username or not password or not email:
-        return jsonify({'error': 'All fields (user_id, username, password, email) are required'}), 400
+    if userid is None or not username or not password or not email or not employeeid:
+        return jsonify({'error': 'All fields (userid, employeeid, username, password, email) are required'}), 400
 
     try:
         db = Database()
-        query = "call sp_saveuser(%s, %s, %s, %s)"
-        args = (user_id, username, password, email)
+        query = "call sp_saveuser(%s, %s, %s, %s, %s)"
+        args = (userid, employeeid, username, password, email)
         db.execute_query(query, args)
 
         print("User saved successfully")
@@ -37,8 +46,10 @@ def get_users():
         users_data = db.get_data(query, multi=True)
 
         field_names = [
-            'user_id',
+            'userid',
+            'employeeid',
             'username',
+            'password',
             'email'
         ]
 
@@ -72,31 +83,7 @@ def get_user(user_id):
         print("Error fetching user:", str(e))
         return jsonify({'error': 'An error occurred while fetching user'}), 500
 
-@users_bp.route('/updateuser/<int:user_id>', methods=['PUT'])
-def update_user(user_id):
-    data = request.json
-    username = data.get('username')
-    password = data.get('password')
-    email = data.get('email')
-
-    if not username or not password or not email:
-        return jsonify({'error': 'All fields (username, password, email) are required'}), 400
-
-    try:
-        db = Database()
-        query = "call sp_updateuser(%s, %s, %s, %s)"
-        args = (user_id, username, password, email)
-        db.execute_query(query, args)
-
-        print("User updated successfully")
-
-        return jsonify({'message': 'User updated successfully'}), 200
-
-    except Exception as e:
-        print("Error:", e)
-        return jsonify({'error': 'An error occurred'}), 500
-
-@users_bp.route('/deleteuser/<int:user_id>', methods=['DELETE'])
+@users_bp.route('/deleteuser/<int:user_id>', methods=['POST'])
 def delete_user(user_id):
     try:
         db = Database()
