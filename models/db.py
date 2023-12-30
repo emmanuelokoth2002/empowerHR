@@ -65,7 +65,7 @@ class Database:
             conn.close()
 
     def get_json(self, query):
-        data = self.fetch_results(query)
+        data = self.get_data(query)
         json_data = json.dumps(data)
         return json_data
 

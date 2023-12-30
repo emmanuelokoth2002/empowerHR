@@ -44,7 +44,7 @@ def get_complaints():
     try:
         db = Database()
 
-        query = "sp_getcomplaints"
+        query = "call sp_getcomplaints(%s)"
 
         complaints_data = db.get_data(query, multi=True)
 
