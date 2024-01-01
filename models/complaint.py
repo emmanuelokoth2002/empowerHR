@@ -44,7 +44,7 @@ def get_complaints():
     try:
         db = Database()
 
-        query = "call sp_getcomplaints(%s)"
+        query = "sp_getcomplaints"
 
         complaints_data = db.get_data(query, multi=True)
 
@@ -86,5 +86,3 @@ def delete_complaint(complaintid):
     except Exception as e:
         print("Error:", e)
         return jsonify({'error': 'An error occurred'}), 500
-
-
