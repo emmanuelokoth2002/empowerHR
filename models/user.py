@@ -1,67 +1,74 @@
 from flask import Blueprint, request, jsonify
-from flask_login import login_required, login_user, logout_user
+from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, unset_jwt_cookies
 from db import Database
+from werkzeug.security import generate_password_hash, check_password_hash
 
 users_bp = Blueprint('users', __name__)
 
 class user:
-    def __init__(self,userid,roleid,username,password,email):
+    def __init__(self, userid, roleid, username, passwordhash, email):
         self.userid = userid
         self.roleid = roleid
         self.username = username
-        self.password = password
+        self.password_hash = generate_password_hash(passwordhash)
         self.email = email
+
+    def authenticate(self, password):
+        return check_password_hash(self.password_hash, password)
+
+    @classmethod
+    def from_dict(cls, user_data):
+        return cls(
+            userid=user_data.get('userid'),
+            roleid=user_data.get('roleid'),
+            username=user_data.get('username'),
+            passwordhash=user_data.get('passwordhash'),
+            email=user_data.get('email')
+        )
         
-    def is_authenticated(self):
-        return True
-
-    def is_active(self):
-        return True
-
-    def is_anonymous(self):
-        return False
-
-    def get_id(self):
-        return str(self.userid)
-
     @users_bp.route('/login', methods=['POST'])
     def login():
         data = request.json
         username = data.get('username')
-        password = data.get('password')
+        password = data.get('passwordhash')
 
-        # Validate username and password (you might want to add more robust validation)
         if not username or not password:
-            return jsonify({'error': 'Username and password are required'}), 400
+            return jsonify({'error': 'Both username and password are required'}), 400
 
         try:
             db = Database()
-            query = "call sp_getuserbyusername(%s)"
+            query = "sp_getuserbyusername"
             args = (username,)
             user_data = db.get_data(query, args)
+            print(user_data)
 
             if user_data:
-                user = user(*user_data[0])
+                user_info = dict(zip(['userid', 'roleid', 'username', 'passwordhash', 'email'], user_data[0]))
+                user_obj = user.from_dict(user_info)
 
-                # For simplicity, I'm assuming passwords are stored in plain text.
-                # In production, you should use a secure method like Flask-Bcrypt for password hashing.
-                if user.password == password:
-                    login_user(user)
-                    return jsonify({'message': 'Login successful'}), 200
+                if user_obj.authenticate(password):
+                    response_data = {
+                    'message': 'Login successful',
+                    'roleid': user_obj.roleid,
+                    'access_token': create_access_token(identity=user_obj.username)
+                    }
+                    return jsonify(response_data), 200
                 else:
-                    return jsonify({'error': 'Invalid password'}), 401
+                    return jsonify({'error': 'Invalid username or password'}), 401
             else:
                 return jsonify({'error': 'User not found'}), 404
 
         except Exception as e:
-            print("Error:", e)
-            return jsonify({'error': 'An error occurred'}), 500
-
+            print("Error during login:", str(e))
+            return jsonify({'error': 'An error occurred during login'}), 500
+    
     @users_bp.route('/logout', methods=['POST'])
-    @login_required
+    @jwt_required()
     def logout():
-        logout_user()
-        return jsonify({'message': 'Logout successful'}), 200
+        resp = jsonify({'logout': True})
+        unset_jwt_cookies(resp)
+        return resp
+
 
     @users_bp.route('/saveuser', methods=['POST'])
     def add_user():
@@ -73,7 +80,7 @@ class user:
         email = data.get('email')
 
         if userid is None or not username or not password or not email or not roleid:
-            return jsonify({'error': 'All fields (userid, roleid, username, password, email) are required'}), 400
+            return jsonify({'error': 'All fields (userid, employeeid, username, password, email) are required'}), 400
 
         try:
             db = Database()
@@ -90,6 +97,7 @@ class user:
             return jsonify({'error': 'An error occurred'}), 500
 
     @users_bp.route('/getusers', methods=['GET'])
+    @jwt_required()
     def get_users():
         try:
             db = Database()
@@ -99,7 +107,7 @@ class user:
 
             field_names = [
                 'userid',
-                'roleid',
+                'employeeid',
                 'username',
                 'password',
                 'email'
@@ -136,7 +144,12 @@ class user:
             return jsonify({'error': 'An error occurred while fetching user'}), 500
 
     @users_bp.route('/deleteuser/<int:user_id>', methods=['POST'])
+    @jwt_required()
     def delete_user(user_id):
+        current_user = get_jwt_identity()
+        if 'admin' not in current_user['roles']:
+             return jsonify({'error': 'Unauthorized'}), 401
+        
         try:
             db = Database()
             query = "call sp_deleteuser(%s)"
