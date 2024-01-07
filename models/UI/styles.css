@@ -1,0 +1,145 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-image: url(images/back.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background-color: #0e3b6a;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+footer {
+    background-color: #0e3b6a;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+    color: white;
+}
+
+.logo span {
+    color: black;
+}
+
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: calc(100vh - 120px); /* Adjust the height as needed */
+}
+
+
+
+.home-header .row {
+    padding-top: 8px;
+    padding-bottom: 169px;
+}
+
+.promo-text-box {
+    margin-top: 15%;
+}
+
+.promo-text-box h1, p {
+    margin-bottom: 25px;
+    color: whitesmoke;
+    font-size: large;
+}
+
+.play-btn {
+    font-size: 20px;
+    margin: 20px;
+    color: white;
+    letter-spacing: 5px;
+}
+
+.lead-form {
+    width: 350px;
+    background-color: #fff;
+    margin: 10px auto;
+    border-radius: 3px;
+    max-height: 500px; /* Adjust this value as needed */
+    transition: max-height 0.5s ease-in-out;
+}
+
+.form-container {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.5s ease-out;
+}
+
+.form-container.show-form {
+    max-height: 1000px; /* Adjust to a sufficient height */
+    transition: max-height 0.5s ease-in-out;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-around;
+        margin-top: 20px;
+}
+
+.title-box {
+    background-color: #1065b5;
+    height: 150px;
+    padding: 30px;
+    border-bottom-left-radius: 200px 50px;
+    border-bottom-right-radius: 200px 50px;
+}
+
+form label {
+    float: left;
+    margin-left: 37px;
+    color: #999;
+    margin-top: 15px;
+    margin-bottom: 3px;
+    font-size: 14px;
+}
+
+.input-box {
+    width: 280px;
+    height: 40px;
+    padding: 0px 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    color: #999;
+}
+
+.input-box:focus {
+    outline: none;
+    border-color: #1065b5;
+}
+
+.input-box ::placeholder {
+    color: #999;
+}
+
+.submit-btn {
+    width: 280px;
+    height: 60px;
+    color:#fff;
+    font-weight: 600;
+    background-color: #1065b5;
+    border: none;
+    border-radius: 3px;
+    margin-top: 20px;
+    cursor: pointer;
+    margin-bottom: -30px;
+}
