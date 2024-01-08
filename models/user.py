@@ -47,12 +47,13 @@ class user:
                 user_obj = user.from_dict(user_info)
 
                 if user_obj.authenticate(password):
-                    response_data = {
-                    'message': 'Login successful',
-                    'roleid': user_obj.roleid,
-                    'access_token': create_access_token(identity=user_obj.username)
-                    }
-                    return jsonify(response_data), 200
+                    return "hello"
+                    # response_data = {
+                    # 'message': 'Login successful',
+                    # 'roleid': user_obj.roleid,
+                    # 'access_token': create_access_token(identity=user_obj.username)
+                    # }
+                    # return jsonify(response_data), 200
                 else:
                     return jsonify({'error': 'Invalid username or password'}), 401
             else:
