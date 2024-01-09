@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, render_template, request, jsonify
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, unset_jwt_cookies
 from db import Database
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -25,6 +25,9 @@ class user:
             passwordhash=user_data.get('passwordhash'),
             email=user_data.get('email')
         )
+    @users_bp.route('/')
+    def landing_page():
+        return render_template('landingpage.html')
         
     @users_bp.route('/login', methods=['POST'])
     def login():
@@ -47,13 +50,12 @@ class user:
                 user_obj = user.from_dict(user_info)
 
                 if user_obj.authenticate(password):
-                    return "hello"
-                    # response_data = {
-                    # 'message': 'Login successful',
-                    # 'roleid': user_obj.roleid,
-                    # 'access_token': create_access_token(identity=user_obj.username)
-                    # }
-                    # return jsonify(response_data), 200
+                     response_data = {
+                     'message': 'Login successful',
+                     'roleid': user_obj.roleid,
+                     'access_token': create_access_token(identity=user_obj.username)
+                     }
+                     return jsonify(response_data), 200
                 else:
                     return jsonify({'error': 'Invalid username or password'}), 401
             else:
