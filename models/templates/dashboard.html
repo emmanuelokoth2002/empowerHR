@@ -69,14 +69,14 @@
                     </li>
         
                     <li>
-                        <a href="#" class='validation' data-id=49  id="categories">
+                        <a href="employee.html" class='validation' data-id=49  id="categories">
                             <span><i class="fa-solid fa-users"></i></span>
                             <span>Employees</span>
                         </a>
                     </li>
         
                     <li>
-                        <a href="#" class='validation' data-id=55 id="">
+                        <a href="Role.html" class='validation' data-id=55 id="">
                             <span><i class="fa-solid fa-critical-role"></i></span>
                             <span>Roles</span>
                         </a>
@@ -156,6 +156,33 @@
             document.getElementById("mySidenav").style.width = "0";
             document.getElementById("main").style.marginLeft = "0";
         }
+        $(document).ready(function() {
+            // Initial content to load on dashboard load
+            loadContent('users.html');
+
+            // Function to load content from files
+            function loadContent(file) {
+                $.ajax({
+                    url: file,
+                    type: 'GET',
+                    dataType: 'html',
+                    success: function(response) {
+                        $('.main-content').html(response);
+                    },
+                    error: function(xhr) {
+                        console.error('Error loading content:', xhr.statusText);
+                    }
+                });
+            }
+
+            // Navigation link clicks
+            $('.sidebar ul li a').click(function(event) {
+                event.preventDefault();
+                var contentFile = $(this).attr('href');
+                loadContent(contentFile);
+            });
+        });
+
     </script>
 </body>
 </html>

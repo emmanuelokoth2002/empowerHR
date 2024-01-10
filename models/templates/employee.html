@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Employees</title>
+    <!-- Add your CSS links here -->
+</head>
+<body>
+    <!-- Table to display employee information -->
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Employee ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Date of Birth</th>
+                <th>Phone Number</th>
+                <th>Address</th>
+                <th>Hire Date</th>
+                <th>Department ID</th>
+                <th>Role ID</th>
+                <th>Deleted</th>
+                <th>Date Deleted</th>
+            </tr>
+        </thead>
+        <tbody id="employees-table">
+            <!-- Employee data fetched from the database will be rendered here -->
+        </tbody>
+    </table>
+
+    <!-- Your scripts, including Ajax to fetch employee data -->
+    <script>
+        // Perform an Ajax request to fetch all employee data from the server
+        fetch('/getallemployees') // Endpoint to get all employees
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(employees => {
+                const employeesTable = document.getElementById('employees-table');
+                employees.forEach(employee => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${employee.employeeid}</td>
+                        <td>${employee.firstname}</td>
+                        <td>${employee.lastname}</td>
+                        <td>${employee.email}</td>
+                        <td>${employee.dateofbirth}</td>
+                        <td>${employee.phonenumber}</td>
+                        <td>${employee.address}</td>
+                        <td>${employee.hiredate}</td>
+                        <td>${employee.departmentid}</td>
+                        <td>${employee.roleid}</td>
+                        <td>${employee.deleted}</td>
+                        <td>${employee.datedeleted}</td>
+                    `;
+                    employeesTable.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Error fetching employees:', error));
+    </script>
+</body>
+</html>
