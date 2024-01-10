@@ -29,41 +29,51 @@ class user:
     def landing_page():
         return render_template('landingpage.html')
         
-    @users_bp.route('/login', methods=['POST'])
+    @users_bp.route('/login', methods=['GET', 'POST'])
     def login():
-        data = request.json
-        username = data.get('username')
-        password = data.get('passwordhash')
+        if request.method == 'GET':
+            # Handle GET request, for example, render a login form
+            return render_template('loginpage.html')
 
-        if not username or not password:
-            return jsonify({'error': 'Both username and password are required'}), 400
+        elif request.method == 'POST':
+            # Handle POST request for login
+            data = request.json
+            username = data.get('username')
+            password = data.get('passwordhash')
 
-        try:
-            db = Database()
-            query = "sp_getuserbyusername"
-            args = (username,)
-            user_data = db.get_data(query, args)
-            print(user_data)
+            if not username or not password:
+                return jsonify({'error': 'Both username and password are required'}), 400
 
-            if user_data:
-                user_info = dict(zip(['userid', 'roleid', 'username', 'passwordhash', 'email'], user_data[0]))
-                user_obj = user.from_dict(user_info)
+            try:
+                db = Database()
+                query = "sp_getuserbyusername"
+                args = (username,)
+                user_data = db.get_data(query, args)
 
-                if user_obj.authenticate(password):
-                     response_data = {
-                     'message': 'Login successful',
-                     'roleid': user_obj.roleid,
-                     'access_token': create_access_token(identity=user_obj.username)
-                     }
-                     return jsonify(response_data), 200
+                if user_data:
+                    user_info = dict(zip(['userid', 'roleid', 'username', 'passwordhash', 'email'], user_data[0]))
+                    user_obj = user.from_dict(user_info)
+
+                    if user_obj.authenticate(password):
+                        response_data = {
+                            'message': 'Login successful',
+                            'roleid': user_obj.roleid,
+                            'access_token': create_access_token(identity=user_obj.username)
+                        }
+                        return render_template('dashboard.html', data=response_data)
+
+                    else:
+                        return jsonify({'error': 'Invalid username or password'}), 401
                 else:
-                    return jsonify({'error': 'Invalid username or password'}), 401
-            else:
-                return jsonify({'error': 'User not found'}), 404
+                    return jsonify({'error': 'User not found'}), 404
 
-        except Exception as e:
-            print("Error during login:", str(e))
-            return jsonify({'error': 'An error occurred during login'}), 500
+            except Exception as e:
+                print("Error during login:", str(e))
+                return jsonify({'error': 'An error occurred during login'}), 500
+
+        else:
+            return jsonify({'error': 'Unsupported request method'}), 405
+
     
     @users_bp.route('/logout', methods=['POST'])
     @jwt_required()

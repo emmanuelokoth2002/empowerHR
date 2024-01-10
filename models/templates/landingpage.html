@@ -31,11 +31,11 @@
                         <div class="lead-form">
                             <h3>Sign in</h3>
                             <p>Sign in to your account to continue</p>
-                            <form id="loginForm" action="http://127.0.0.1:5000/login" method="post">
+                            <form id="loginForm" action="/login" method="post">
                                 <label for="username">Username</label>
-                                <input type="text" name="name" class="input-box" placeholder="Enter your name" required>
+                                <input type="text" name="username" class="input-box" placeholder="Enter your name" required>
                                 <label for="password">Password</label>
-                                <input type="password" name="password" class="input-box" placeholder="Enter your password" required>
+                                <input type="password" name="passwordhash" class="input-box" placeholder="Enter your password" required>
                                 <input type="submit" class="submit-btn btn btn-primary" value="Login">
                                 <br><br>
                                 <a href="#">Forgot password?</a>
@@ -62,6 +62,51 @@
     </footer>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Select the login form
+            const loginForm = document.getElementById('loginForm');
+    
+            // Add an event listener to the form
+            loginForm.addEventListener('submit', function (event) {
+                // Prevent the default form submission
+                event.preventDefault();
+    
+                // Get the form data
+                const formData = new FormData(loginForm);
+                
+                // Create an object from the form data
+                const formDataObject = {};
+                formData.forEach((value, key) => {
+                    formDataObject[key] = value;
+                });
+    
+                // Convert the object to a JSON string
+                const jsonData = JSON.stringify(formDataObject);
+    
+                // Make a POST request to the backend API
+                fetch('http://127.0.0.1:5000/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: jsonData,
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Handle the response from the backend
+                    console.log('Success:', data);
+                })
+                .catch(error => {
+                    // Handle errors
+                    console.error('Error:', error);
+                });
+            });
+        });
         function toggleLoginForm() {
             var container = document.querySelector('.form-container');
             container.classList.toggle('show-form');
@@ -72,36 +117,6 @@
             const formContainer = document.querySelector('.text-center');
             formContainer.classList.toggle('blurred-background');
         }
-    
-        // Add this JavaScript code
-        document.addEventListener('DOMContentLoaded', function () {
-            const loginForm = document.getElementById('loginForm');
-    
-            loginForm.addEventListener('submit', function (event) {
-                event.preventDefault(); // Prevent default form submission
-    
-                const formDataObject = {
-                    username: loginForm.querySelector('[name="name"]').value,
-                    passwordhash: loginForm.querySelector('[name="password"]').value,
-                };
-    
-                // Send the data as JSON using fetch
-                fetch('/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formDataObject),
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data); // Handle the response as needed
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-            });
-        });
     </script>
     
     
