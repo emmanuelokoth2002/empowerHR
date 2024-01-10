@@ -13,37 +13,55 @@
     <title>Employee HR Management System</title>
     <!-- Add your CSS and JavaScript links -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../static/styles.css" rel="stylesheet">
+    
     <link href="../static/dashboard.css" rel="stylesheet">
 </head>
-<body>
-    <div class="header">
-        <h2>
-            <label for="nav-toggle">
-                <i class="fas fa-bars"></i>
-            </label>
-            Dashboard
-        </h2>
+<body id="main">
 
-        <div class="search-wrapper">
-           <i class="fas fa-search"></i>
-            <input type="text" name="search" id="search" placeholder="Search here ...">
-        </div>
-
-        <div class="user-wrapper">
-            <img src="../static/images/user.png"  height="40px" width="40px"alt="" class="profilephoto">
-            <div>
-                <h4 class="username">System Administrator</h4>
-                <small class="role">Admin Account</small>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" id="navigation">
+            <span onclick="openNav()"><button type="button" class="btn btn-primary">EmployeeHR</button></button></span>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                  <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Dropdown
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                  </div>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link disabled" href="#">Disabled</a>
+                </li>
+              </ul>
+              <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+              </form>
             </div>
-        </div>
-    </div>
+          </nav>
+
     
     
     
     <!-- Admin Dashboard -->
     <div id="admin-dashboard" class="dashboard container-fluid">
-        <div class="sidebar">
+        
+        <div class="sidebar" id="mySidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 
             <div class="sidebar-brand">
                 <h2>
@@ -130,19 +148,31 @@
     
 
         <!-- Main content area -->
-        <main class="main-content col-md-9">
+        <main class="main-content col-md-9" >
             <!-- Content sections will be displayed here -->
         </main>
     </div>
 
     <footer class="footer">
         <!-- Footer content goes here -->
-        contact us on employ
+        
     </footer>
 
     <!-- Your scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="scripts/sidebar.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "250px";
+            document.getElementById("main").style.marginLeft = "250px";
+        }
+
+            /* Set the width of the side navigation to 0 */
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+            document.getElementById("main").style.marginLeft = "0";
+        }
+    </script>
 </body>
 </html>
