@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="js/script.js"></script>
+    <title>Employee HR Management System</title>
+    <!-- Add your CSS and JavaScript links -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/styles.css" rel="stylesheet">
+    <link href="../static/dashboard.css" rel="stylesheet">
+</head>
+<body>
+    <div class="header">
+        <h2>
+            <label for="nav-toggle">
+                <i class="fas fa-bars"></i>
+            </label>
+            Dashboard
+        </h2>
+
+        <div class="search-wrapper">
+           <i class="fas fa-search"></i>
+            <input type="text" name="search" id="search" placeholder="Search here ...">
+        </div>
+
+        <div class="user-wrapper">
+            <img src="../static/images/user.png"  height="40px" width="40px"alt="" class="profilephoto">
+            <div>
+                <h4 class="username">System Administrator</h4>
+                <small class="role">Admin Account</small>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    <!-- Admin Dashboard -->
+    <div id="admin-dashboard" class="dashboard container-fluid">
+        <div class="sidebar">
+
+            <div class="sidebar-brand">
+                <h2>
+                    <i class="fas fa-warehouse"></i><span>Home</span>
+                </h2>
+            </div>
+        
+            <div class="sidebar-menu">
+                <ul>
+                    <li>
+                        <a href="#" class='validation' data-id=48 id="">
+                            <span><i class="fa-solid fa-gauge"></i></span>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+        
+                    <li>
+                        <a href="#" class='validation' data-id=2 id="">
+                            <span><i class="fa-solid fa-users"></i></span>
+                            <span>Users</span>
+                        </a>
+                    </li>
+        
+                    <li>
+                        <a href="#" class='validation' data-id=49  id="categories">
+                            <span><i class="fa-solid fa-users"></i></span>
+                            <span>Employees</span>
+                        </a>
+                    </li>
+        
+                    <li>
+                        <a href="#" class='validation' data-id=55 id="">
+                            <span><i class="fa-solid fa-critical-role"></i></span>
+                            <span>Roles</span>
+                        </a>
+                    </li>
+        
+                    <li>
+                        <a href="#" id="inventory" class='validation' data-id=14>
+                            <span><i class="fa-solid fa-circle-info"></i></span>
+                            <span>Complaints</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="#" id="inventory" class='validation' data-id=14>
+                            <span><i class="fa-solid fa-code-pull-request"></i></span>
+                            <span>Leave Request</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#" id="inventory" class='validation' data-id=14>
+                            <span><i class="fa-solid fa-building"></i></span>
+                            <span>Department</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#" id="inventory" class='validation' data-id=14>
+                            <span><i class="fa-solid fa-circle-info"></i></span>
+                            <span>Suggestions</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#" id="inventory" class='validation' data-id=14>
+                            <span><i class="fa-solid fa-envelope"></i></i></span>
+                            <span>Notifications</span>
+                        </a>
+                    </li>
+        
+        
+                    <li>
+                        <a href="#" id="logoutuser">
+                            <span><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
+                            <span>Logout</span>
+                    </li>
+        
+                </ul>
+            </div> 
+        
+        </div>
+    
+
+        <!-- Main content area -->
+        <main class="main-content col-md-9">
+            <!-- Content sections will be displayed here -->
+        </main>
+    </div>
+
+    <footer class="footer">
+        <!-- Footer content goes here -->
+        contact us on employ
+    </footer>
+
+    <!-- Your scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="scripts/sidebar.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
