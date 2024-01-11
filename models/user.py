@@ -60,7 +60,8 @@ class user:
                             'roleid': user_obj.roleid,
                             'access_token': create_access_token(identity=user_obj.username)
                         }
-                        return render_template('dashboard.html', data=response_data)
+                        return jsonify({'successfully logged in'}), 200
+                        # return render_template('dashboard.html', data=response_data)
 
                     else:
                         return jsonify({'error': 'Invalid username or password'}), 401
@@ -110,7 +111,7 @@ class user:
             return jsonify({'error': 'An error occurred'}), 500
 
     @users_bp.route('/getusers', methods=['GET'])
-    @jwt_required()
+    # @jwt_required()
     def get_users():
         try:
             db = Database()
@@ -132,6 +133,7 @@ class user:
                 users_list.append(user_info)
 
             return jsonify(users_list), 200
+            # return render_template('dashboard.html')
 
         except Exception as e:
             print("Error fetching users:", str(e))

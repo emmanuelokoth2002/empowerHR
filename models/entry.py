@@ -8,8 +8,11 @@ from role import roles_bp
 from suggestion import suggestions_bp
 from notification import notifications_bp
 from user import users_bp
+from flask_cors import CORS
+
 
 app = Flask(__name__)
+CORS(app)
 
 # Configure Flask app to use Flask-JWT-Extended
 app.config['SECRET_KEY'] = 'emmanuel'
