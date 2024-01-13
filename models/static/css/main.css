@@ -1,0 +1,10 @@
+body {
+    background-color: lightgrey;
+}
+
+.container {
+    background-color: rgb(255, 248, 248);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px;
+}

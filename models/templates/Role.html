@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Roles</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="../static/css/main.css" rel="stylesheet">
     <!-- Add your CSS links here -->
     <style>
         .add-role-row {
@@ -16,31 +18,35 @@
     </style>
 </head>
 <body>
-    <!-- Path at the top of the page -->
-    <div id="path-container"></div>
+    <div class="container">
+        <h1>Roles</h1>
+        <!-- Path at the top of the page -->
+        <div id="path-container"></div>
 
-    <!-- "Add New Role" button -->
-    <button onclick="toggleAddRoleRow()">Add New Role</button>
+        <!-- "Add New Role" button -->
+        <button onclick="toggleAddRoleRow()" class="btn btn-primary">Add New Role</button>
 
-    <!-- Table to display role information -->
-    <table border="1" class="table table-striped">
-        <thead>
-            <tr>
-                <th>Role ID</th>
-                <th>Role Name</th>
-                <th>Action</th>
+        <!-- Table to display role information -->
+        <table border="1" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Role ID</th>
+                    <th>Role Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="roles-table">
+                <!-- Role data fetched from the database will be rendered here -->
+            </tbody>
+            <!-- Row to add a new role -->
+            <tr class="add-role-row">
+                <td><input type="number" id="new-role-id" placeholder="Role ID"></td>
+                <td><input type="text" id="new-role-name" placeholder="Role Name"></td>
+                <td><button onclick="addNewRole()" class="btn btn-primary">Add</button></td>
             </tr>
-        </thead>
-        <tbody id="roles-table">
-            <!-- Role data fetched from the database will be rendered here -->
-        </tbody>
-        <!-- Row to add a new role -->
-        <tr class="add-role-row">
-            <td><input type="number" id="new-role-id" placeholder="Role ID"></td>
-            <td><input type="text" id="new-role-name" placeholder="Role Name"></td>
-            <td><button onclick="addNewRole()">Add</button></td>
-        </tr>
-    </table>
+            
+        </table>
+    </div>
 
     <!-- Your scripts, including Ajax to fetch role data and handle form submissions -->
     <script>
@@ -70,7 +76,7 @@
                             <td>${role.roleid}</td>
                             <td>${role.rolename}</td>
                             <td>
-                                <button onclick="deleteRole(${role.roleid})">Delete</button>
+                                <button onclick="deleteRole(${role.roleid})" class="btn btn-primary">Delete</button>
                             </td>
                         `;
                         rolesTable.appendChild(row);

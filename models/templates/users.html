@@ -5,26 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Users</title>
     <!-- Add your CSS links here -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="../static/css/main.css" rel="stylesheet">
+    <style>
+        .add-user-row {
+            display: none;
+        }
+
+        .add-user-row td {
+            padding: 5px;
+        }
+    </style>
 </head>
 <body>
-    <!-- Table to display user information -->
-    <table border="1">
-        <thead>
-            <tr>
-                <th>User ID</th>
-                <th>Username</th>
-                <th>Role ID</th>
-                <th>Password</th>
-                <th>Email</th>
+    <div class="container"
+        <!-- Table to display user information -->
+        <button onclick="toggleAddRoleRow()" class="btn btn-primary">Add New User</button>
+        <table border="1" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="users-table">
+                <!-- User data fetched from the database will be rendered here -->
+            </tbody>
+            <!-- Row to add a new user -->
+            <tr class="add-user-row">
+                <td><input type="number" id="new-user-id" placeholder="User ID"></td>
+                <td><input type="text" id="new-username" placeholder="Username"></td>
+                <td><input type="email" id="new-email" placeholder="Email"></td>
+                <td><button onclick="addNewUser()" class="btn btn-primary">Add</button></td>
             </tr>
-        </thead>
-        <tbody id="users-table">
-            <!-- User data fetched from the database will be rendered here -->
-        </tbody>
-    </table>
+        </table>
+    </div>
 
     <!-- The scripts, including Ajax to fetch and display user data -->
     <script>
+        function toggleAddRoleRow() {
+            const addRoleRow = document.querySelector('.add-user-row');
+            addRoleRow.style.display = addRoleRow.style.display === 'none' ? 'table-row' : 'none';
+        }
         // Perform an Ajax request to fetch user data from the server
         // Parse the retrieved data and populate the table
         fetch('/getallusers') // Endpoint to get all users
@@ -42,11 +66,16 @@
                         <td>${user.user_id}</td>
                         <td>${user.username}</td>
                         <td>${user.email}</td>
+                        <td>
+                            <button onclick="deleteRole(${role.roleid})" class="btn btn-primary">Delete</button>
+                        </td>
                     `;
                     usersTable.appendChild(row);
                 });
             })
             .catch(error => console.error('Error fetching users:', error));
+
+
     </script>
 </body>
 </html>
