@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Complaints</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="../static/css/main.css" rel="stylesheet">
+    <!-- Add your CSS links here -->
+    <style>
+        .add-complaint-row {
+            display: none;
+        }
+
+        .add-complaint-row td {
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Complaints</h1>
+        <!-- Path at the top of the page -->
+        <div id="path-container"></div>
+
+        <!-- "Add New Complaint" button -->
+        <button onclick="toggleAddComplaintRow()" class="btn btn-primary">Add New Complaint</button>
+
+        <!-- Table to display complaint information -->
+        <table border="1" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Complaint ID</th>
+                    <th>Employee ID</th>
+                    <th>Department</th>
+                    <th>Issue</th>
+                    <th>Status</th>
+                    <th>Created At</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="complaints-table">
+                <!-- Complaint data fetched from the database will be rendered here -->
+            </tbody>
+            <!-- Row to add a new complaint -->
+            <tr class="add-complaint-row">
+                <td><input type="number" id="new-complaint-id" placeholder="Complaint ID"></td>
+                <td><input type="number" id="new-employee-id" placeholder="Employee ID"></td>
+                <td><input type="text" id="new-department" placeholder="Department"></td>
+                <td><input type="text" id="new-issue" placeholder="Issue"></td>
+                <td><input type="text" id="new-status" placeholder="Status"></td>
+                <td><button onclick="addNewComplaint()" class="btn btn-primary">Add</button></td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Your scripts, including Ajax to fetch complaint data and handle form submissions -->
+    <script>
+        // Function to toggle the visibility of the "Add New Complaint" row
+        function toggleAddComplaintRow() {
+            const addComplaintRow = document.querySelector('.add-complaint-row');
+            addComplaintRow.style.display = addComplaintRow.style.display === 'none' ? 'table-row' : 'none';
+        }
+
+        // Function to fetch and render complaint data
+        function fetchComplaints() {
+            // Your fetchComplaints function logic here
+            fetch('/getcomplaints') // Endpoint to get all complaints
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(complaints => {
+                    const complaintsTable = document.getElementById('complaints-table');
+                    complaintsTable.innerHTML = ''; // Clear previous data
+
+                    complaints.forEach(complaint => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${complaint.complaint_id}</td>
+                            <td>${complaint.employee_id}</td>
+                            <td>${complaint.department}</td>
+                            <td>${complaint.issue}</td>
+                            <td>${complaint.status}</td>
+                            <td>${complaint.created_at}</td>
+                            <td>
+                                <button onclick="deleteComplaint(${complaint.complaint_id})" class="btn btn-danger">Delete</button>
+                            </td>
+                        `;
+                        complaintsTable.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error fetching complaints:', error));
+        }
+
+        // Function to add a new complaint
+        function addNewComplaint() {
+            const newComplaintId = document.getElementById('new-complaint-id').value;
+            const newEmployeeId = document.getElementById('new-employee-id').value;
+            const newDepartment = document.getElementById('new-department').value;
+            const newIssue = document.getElementById('new-issue').value;
+            const newStatus = document.getElementById('new-status').value;
+
+            fetch('/addcomplaint', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    complaintid: newComplaintId,
+                    employeeid: newEmployeeId,
+                    department: newDepartment,
+                    issue: newIssue,
+                    status: newStatus,
+                }),
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data.message);
+                    fetchComplaints(); // Refresh complaint data after adding a new complaint
+                    toggleAddComplaintRow(); // Hide the "Add New Complaint" row after adding
+                })
+                .catch(error => console.error('Error adding new complaint:', error));
+        }
+
+        // Function to delete a complaint
+        function deleteComplaint(complaintIdToDelete) {
+            fetch(`/deletecomplaint/${complaintIdToDelete}`, {
+                method: 'POST',
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data.message);
+                    fetchComplaints(); // Refresh complaint data after deleting a complaint
+                })
+                .catch(error => console.error('Error deleting complaint:', error));
+        }
+
+        // Fetch and render complaint data when the page loads
+        fetchComplaints();
+    </script>
+</body>
+</html>

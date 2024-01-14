@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>User - Notifications</title>
+        <!-- Add your Bootstrap CSS link here -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link href="../static/css/main.css" rel="stylesheet">
+        <!-- Add your custom CSS links here -->
+
+        <style>
+            .add-notification-row {
+                display: none;
+            }
+
+            .add-notification-row input {
+                margin-bottom: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Notifications</h1>
+            <!-- Path at the top of the page -->
+            <div id="path-container"></div>
+
+            <!-- "Add New Notification" button -->
+            <button onclick="toggleAddNotificationRow()" class="btn btn-primary">Add New Notification</button>
+
+            <!-- Table to display notification information -->
+            <table class="table table-striped mt-3">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Body</th>
+                        <th>Added By</th>
+                        <th>Recipient</th>
+                        <th>Date Added</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="notifications-table">
+                    <!-- Notification data fetched from the database will be rendered here -->
+                </tbody>
+                <!-- Row to add a new notification -->
+                <tr class="add-notification-row">
+                    <td><input type="text" id="new-notification-title" placeholder="Title"></td>
+                    <td><input type="text" id="new-notification-body" placeholder="Body"></td>
+                    <td><input type="text" id="new-notification-recipient" placeholder="Recipient ID"></td>
+                    <td><button onclick="addNewNotification()" class="btn btn-primary">Add</button></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Your scripts, including Ajax to fetch notification data and handle form submissions -->
+        <script>
+            // Function to toggle the visibility of the "Add New Notification" row
+            function toggleAddNotificationRow() {
+                const addNotificationRow = document.querySelector('.add-notification-row');
+                addNotificationRow.style.display = addNotificationRow.style.display === 'none' ? 'table-row' : 'none';
+            }
+
+            // Function to fetch and render notification data
+            function fetchNotifications() {
+                // Your fetchNotifications function logic here
+                fetch('/getnotifications') // Endpoint to get all notifications
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(notifications => {
+                        const notificationsTable = document.getElementById('notifications-table');
+                        notificationsTable.innerHTML = ''; // Clear previous data
+
+                        notifications.forEach(notification => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${notification.title}</td>
+                                <td>${notification.body}</td>
+                                <td>${notification.addedby}</td>
+                                <td>${notification.recipient}</td>
+                                <td>${notification.dateadded}</td>
+                                <td>
+                                    <button onclick="deleteNotification(${notification.notificationid})" class="btn btn-danger">Delete</button>
+                                </td>
+                            `;
+                            notificationsTable.appendChild(row);
+                        });
+                    })
+                    .catch(error => console.error('Error fetching notifications:', error));
+            }
+
+            // Function to add a new notification
+            function addNewNotification() {
+                const newNotificationTitle = document.getElementById('new-notification-title').value;
+                const newNotificationBody = document.getElementById('new-notification-body').value;
+                const newNotificationRecipient = document.getElementById('new-notification-recipient').value;
+
+                fetch('/savenotification', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer YOUR_JWT_TOKEN', // Add your JWT token here
+                    },
+                    body: JSON.stringify({
+                        title: newNotificationTitle,
+                        body: newNotificationBody,
+                        recipient: newNotificationRecipient,
+                    }),
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data.message);
+                        fetchNotifications(); // Refresh notification data after adding a new notification
+                        toggleAddNotificationRow(); // Hide the "Add New Notification" row after adding
+                    })
+                    .catch(error => console.error('Error adding new notification:', error));
+            }
+
+            // Function to delete a notification
+            function deleteNotification(notificationIdToDelete) {
+                fetch(`/deletenotification/${notificationIdToDelete}`, {
+                    method: 'POST',
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data.message);
+                        fetchNotifications(); // Refresh notification data after deleting a notification
+                    })
+                    .catch(error => console.error('Error deleting notification:', error));
+            }
+
+            // Fetch and render notification data when the page loads
+            fetchNotifications();
+        </script>
+
+        <!-- Add your Bootstrap and other scripts here -->
+    </body>
+</html>

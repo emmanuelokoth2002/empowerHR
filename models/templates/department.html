@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Admin - Departments</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link href="../static/css/main.css" rel="stylesheet">
+        <!-- Add your CSS links here -->
+        <style>
+            .add-department-row {
+                display: none;
+            }
+
+            .add-department-row td {
+                padding: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Departments</h1>
+            <!-- Path at the top of the page -->
+            <div id="path-container"></div>
+
+            <!-- "Add New Department" button -->
+            <button onclick="toggleAddDepartmentRow()" class="btn btn-primary">Add New Department</button>
+
+            <!-- Table to display department information -->
+            <table border="1" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Department ID</th>
+                        <th>Department Name</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="departments-table">
+                    <!-- Department data fetched from the database will be rendered here -->
+                </tbody>
+                <!-- Row to add a new department -->
+                <tr class="add-department-row">
+                    <td><input type="number" id="new-department-id" placeholder="Department ID"></td>
+                    <td><input type="text" id="new-department-name" placeholder="Department Name"></td>
+                    <td><button onclick="addNewDepartment()" class="btn btn-primary">Add</button></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Your scripts, including Ajax to fetch department data and handle form submissions -->
+        <script>
+            // Function to toggle the visibility of the "Add New Department" row
+            function toggleAddDepartmentRow() {
+                const addDepartmentRow = document.querySelector('.add-department-row');
+                addDepartmentRow.style.display = addDepartmentRow.style.display === 'none' ? 'table-row' : 'none';
+            }
+
+            // Function to fetch and render department data
+            function fetchDepartments() {
+                // Your fetchDepartments function logic here
+                fetch('/getdepartments') // Endpoint to get all departments
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(departments => {
+                        const departmentsTable = document.getElementById('departments-table');
+                        departmentsTable.innerHTML = ''; // Clear previous data
+
+                        departments.forEach(department => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${department.departmentid}</td>
+                                <td>${department.departmentname}</td>
+                                <td>
+                                    <button onclick="deleteDepartment(${department.departmentid})" class="btn btn-danger">Delete</button>
+                                </td>
+                            `;
+                            departmentsTable.appendChild(row);
+                        });
+                    })
+                    .catch(error => console.error('Error fetching departments:', error));
+            }
+
+            // Function to add a new department
+            function addNewDepartment() {
+                const newDepartmentId = document.getElementById('new-department-id').value;
+                const newDepartmentName = document.getElementById('new-department-name').value;
+
+                fetch('/savedepartment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        departmentid: newDepartmentId,
+                        departmentname: newDepartmentName,
+                    }),
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data.message);
+                        fetchDepartments(); // Refresh department data after adding a new department
+                        toggleAddDepartmentRow(); // Hide the "Add New Department" row after adding
+                    })
+                    .catch(error => console.error('Error adding new department:', error));
+            }
+
+            // Function to delete a department
+            function deleteDepartment(departmentIdToDelete) {
+                fetch(`/deletedepartment/${departmentIdToDelete}`, {
+                    method: 'POST',
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw  Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data.message);
+                        fetchDepartments(); // Refresh department data after deleting a department
+                    })
+                    .catch(error => console.error('Error deleting department:', error));
+            }
+
+            // Fetch and render department data when the page loads
+            fetchDepartments();
+        </script>
+    </body>
+</html>

@@ -150,7 +150,7 @@ class user:
     @jwt_required()
     def delete_user(user_id):
         current_user = get_jwt_identity()
-        if 'admin' not in current_user['roles']:
+        if 'admin' not in current_user['users']:
              return jsonify({'error': 'Unauthorized'}), 401
         
         try:

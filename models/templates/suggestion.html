@@ -1,0 +1,149 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Admin - Suggestions</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link href="../static/css/main.css" rel="stylesheet">
+        <!-- Add your CSS links here -->
+        <style>
+            .add-suggestion-row {
+                display: none;
+            }
+
+            .add-suggestion-row td {
+                padding: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Suggestions</h1>
+            <!-- Path at the top of the page -->
+            <div id="path-container"></div>
+
+            <!-- "Add New Suggestion" button -->
+            <button onclick="toggleAddSuggestionRow()" class="btn btn-primary">Add New Suggestion</button>
+
+            <!-- Table to display suggestion information -->
+            <table border="1" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Suggestion ID</th>
+                        <th>Employee ID</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="suggestions-table">
+                    <!-- Suggestion data fetched from the database will be rendered here -->
+                </tbody>
+                <!-- Row to add a new suggestion -->
+                <tr class="add-suggestion-row">
+                    <td><input type="number" id="new-suggestion-id" placeholder="Suggestion ID"></td>
+                    <td><input type="number" id="new-employee-id" placeholder="Employee ID"></td>
+                    <td><input type="text" id="new-description" placeholder="Description"></td>
+                    <td><input type="text" id="new-status" placeholder="Status"></td>
+                    <td><button onclick="addNewSuggestion()" class="btn btn-primary">Add</button></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Your scripts, including Ajax to fetch suggestion data and handle form submissions -->
+        <script>
+            // Function to toggle the visibility of the "Add New Suggestion" row
+            function toggleAddSuggestionRow() {
+                const addSuggestionRow = document.querySelector('.add-suggestion-row');
+                addSuggestionRow.style.display = addSuggestionRow.style.display === 'none' ? 'table-row' : 'none';
+            }
+
+            // Function to fetch and render suggestion data
+            function fetchSuggestions() {
+                // Your fetchSuggestions function logic here
+                fetch('/getsuggestions') // Endpoint to get all suggestions
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(suggestions => {
+                        const suggestionsTable = document.getElementById('suggestions-table');
+                        suggestionsTable.innerHTML = ''; // Clear previous data
+
+                        suggestions.forEach(suggestion => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${suggestion.suggestionid}</td>
+                                <td>${suggestion.employeeid}</td>
+                                <td>${suggestion.description}</td>
+                                <td>${suggestion.status}</td>
+                                <td>
+                                    <button onclick="deleteSuggestion(${suggestion.suggestionid})" class="btn btn-danger">Delete</button>
+                                </td>
+                            `;
+                            suggestionsTable.appendChild(row);
+                        });
+                    })
+                    .catch(error => console.error('Error fetching suggestions:', error));
+            }
+
+            // Function to add a new suggestion
+            function addNewSuggestion() {
+                const newSuggestionId = document.getElementById('new-suggestion-id').value;
+                const newEmployeeId = document.getElementById('new-employee-id').value;
+                const newDescription = document.getElementById('new-description').value;
+                const newStatus = document.getElementById('new-status').value;
+
+                fetch('/savesuggestion', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        suggestionid: newSuggestionId,
+                        employeeid: newEmployeeId,
+                        description: newDescription,
+                        status: newStatus,
+                    }),
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data.message);
+                        fetchSuggestions(); // Refresh suggestion data after adding a new suggestion
+                        toggleAddSuggestionRow(); // Hide the "Add New Suggestion" row after adding
+                    })
+                    .catch(error => console.error('Error adding new suggestion:', error));
+            }
+
+            // Function to delete a suggestion
+            function deleteSuggestion(suggestionIdToDelete) {
+                fetch(`/deletesuggestion/${suggestionIdToDelete}`, {
+                    method: 'POST',
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data.message);
+                        fetchSuggestions(); // Refresh suggestion data after deleting a suggestion
+                    })
+                    .catch(error => console.error('Error deleting suggestion:', error));
+            }
+
+            // Fetch and render suggestion data when the page loads
+            fetchSuggestions();
+        </script>
+    </body>
+</html>

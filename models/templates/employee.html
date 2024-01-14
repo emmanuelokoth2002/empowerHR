@@ -4,64 +4,150 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Employees</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="../static/css/main.css" rel="stylesheet">
     <!-- Add your CSS links here -->
+    <style>
+        .add-employee-row {
+            display: none;
+        }
+
+        .add-employee-row td {
+            padding: 5px;
+        }
+    </style>
 </head>
 <body>
-    <!-- Table to display employee information -->
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Employee ID</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>Date of Birth</th>
-                <th>Phone Number</th>
-                <th>Address</th>
-                <th>Hire Date</th>
-                <th>Department ID</th>
-                <th>Role ID</th>
-                <th>Deleted</th>
-                <th>Date Deleted</th>
-            </tr>
-        </thead>
-        <tbody id="employees-table">
-            <!-- Employee data fetched from the database will be rendered here -->
-        </tbody>
-    </table>
+    <div class="container">
+        <h1>Employees</h1>
+        <!-- Path at the top of the page -->
+        <div id="path-container"></div>
 
-    <!-- Your scripts, including Ajax to fetch employee data -->
+        <!-- "Add New Employee" button -->
+        <button onclick="toggleAddEmployeeRow()" class="btn btn-primary">Add New Employee</button>
+
+        <!-- Table to display employee information -->
+        <table border="1" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Employee ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Role ID</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="employees-table">
+                <!-- Employee data fetched from the database will be rendered here -->
+            </tbody>
+            <!-- Row to add a new employee -->
+            <tr class="add-employee-row">
+                <td><input type="number" id="new-employee-id" placeholder="Employee ID"></td>
+                <td><input type="text" id="new-first-name" placeholder="First Name"></td>
+                <td><input type="text" id="new-last-name" placeholder="Last Name"></td>
+                <td><input type="email" id="new-email" placeholder="Email"></td>
+                <td><input type="number" id="new-role-id" placeholder="Role ID"></td>
+                <td><button onclick="addNewEmployee()" class="btn btn-primary">Add</button></td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Your scripts, including Ajax to fetch employee data and handle form submissions -->
     <script>
-        // Perform an Ajax request to fetch all employee data from the server
-        fetch('/getallemployees') // Endpoint to get all employees
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
+        // Function to toggle the visibility of the "Add New Employee" row
+        function toggleAddEmployeeRow() {
+            const addEmployeeRow = document.querySelector('.add-employee-row');
+            addEmployeeRow.style.display = addEmployeeRow.style.display === 'none' ? 'table-row' : 'none';
+        }
+
+        // Function to fetch and render employee data
+        function fetchEmployees() {
+            // Your fetchEmployees function logic here
+            fetch('/getemployees') // Endpoint to get all employees
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(employees => {
+                    const employeesTable = document.getElementById('employees-table');
+                    employeesTable.innerHTML = ''; // Clear previous data
+
+                    employees.forEach(employee => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${employee.employeeid}</td>
+                            <td>${employee.firstname}</td>
+                            <td>${employee.lastname}</td>
+                            <td>${employee.email}</td>
+                            <td>${employee.roleid}</td>
+                            <td>
+                                <button onclick="deleteEmployee(${employee.employeeid})" class="btn btn-danger">Delete</button>
+                            </td>
+                        `;
+                        employeesTable.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error fetching employees:', error));
+        }
+
+        // Function to add a new employee
+        function addNewEmployee() {
+            const newEmployeeId = document.getElementById('new-employee-id').value;
+            const newFirstName = document.getElementById('new-first-name').value;
+            const newLastName = document.getElementById('new-last-name').value;
+            const newEmail = document.getElementById('new-email').value;
+            const newRoleId = document.getElementById('new-role-id').value;
+
+            fetch('/saveemployee', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    employeeid: newEmployeeId,
+                    firstname: newFirstName,
+                    lastname: newLastName,
+                    email: newEmail,
+                    roleid: newRoleId,
+                }),
             })
-            .then(employees => {
-                const employeesTable = document.getElementById('employees-table');
-                employees.forEach(employee => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${employee.employeeid}</td>
-                        <td>${employee.firstname}</td>
-                        <td>${employee.lastname}</td>
-                        <td>${employee.email}</td>
-                        <td>${employee.dateofbirth}</td>
-                        <td>${employee.phonenumber}</td>
-                        <td>${employee.address}</td>
-                        <td>${employee.hiredate}</td>
-                        <td>${employee.departmentid}</td>
-                        <td>${employee.roleid}</td>
-                        <td>${employee.deleted}</td>
-                        <td>${employee.datedeleted}</td>
-                    `;
-                    employeesTable.appendChild(row);
-                });
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data.message);
+                    fetchEmployees(); // Refresh employee data after adding a new employee
+                    toggleAddEmployeeRow(); // Hide the "Add New Employee" row after adding
+                })
+                .catch(error => console.error('Error adding new employee:', error));
+        }
+
+        // Function to delete an employee
+        function deleteEmployee(employeeIdToDelete) {
+            fetch(`/deleteemployee/${employeeIdToDelete}`, {
+                method: 'POST',
             })
-            .catch(error => console.error('Error fetching employees:', error));
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data.message);
+                    fetchEmployees(); // Refresh employee data after deleting an employee
+                })
+                .catch(error => console.error('Error deleting employee:', error));
+        }
+
+        // Fetch and render employee data when the page loads
+        fetchEmployees();
     </script>
 </body>
 </html>

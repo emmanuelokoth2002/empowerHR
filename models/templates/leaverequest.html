@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Leave Requests</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="../static/css/main.css" rel="stylesheet">
+    <!-- Add your CSS links here -->
+    <style>
+        .add-leaverequest-row {
+            display: none;
+        }
+
+        .add-leaverequest-row td {
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Leave Requests</h1>
+        <!-- Path at the top of the page -->
+        <div id="path-container"></div>
+
+        <!-- "Add New Leave Request" button -->
+        <button onclick="toggleAddLeaveRequestRow()" class="btn btn-primary">Add New Leave Request</button>
+
+        <!-- Table to display leave request information -->
+        <table border="1" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Leave Request ID</th>
+                    <th>Employee ID</th>
+                    <th>Leave Type</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Reason</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="leaverequests-table">
+                <!-- Leave request data fetched from the database will be rendered here -->
+            </tbody>
+            <!-- Row to add a new leave request -->
+            <tr class="add-leaverequest-row">
+                <td><input type="number" id="new-leaverequest-id" placeholder="Leave Request ID"></td>
+                <td><input type="number" id="new-employee-id" placeholder="Employee ID"></td>
+                <td><input type="text" id="new-leavetype" placeholder="Leave Type"></td>
+                <td><input type="date" id="new-startdate"></td>
+                <td><input type="date" id="new-enddate"></td>
+                <td><input type="text" id="new-reason" placeholder="Reason"></td>
+                <td><input type="text" id="new-status" placeholder="Status"></td>
+                <td><button onclick="addNewLeaveRequest()" class="btn btn-primary">Add</button></td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Your scripts, including Ajax to fetch leave request data and handle form submissions -->
+    <script>
+        // Function to toggle the visibility of the "Add New Leave Request" row
+        function toggleAddLeaveRequestRow() {
+            const addLeaveRequestRow = document.querySelector('.add-leaverequest-row');
+            addLeaveRequestRow.style.display = addLeaveRequestRow.style.display === 'none' ? 'table-row' : 'none';
+        }
+
+        // Function to fetch and render leave request data
+        function fetchLeaveRequests() {
+            // Your fetchLeaveRequests function logic here
+            fetch('/getleaverequests') // Endpoint to get all leave requests
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(leaverequests => {
+                    const leaverequestsTable = document.getElementById('leaverequests-table');
+                    leaverequestsTable.innerHTML = ''; // Clear previous data
+
+                    leaverequests.forEach(leaverequest => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${leaverequest.leaverequestid}</td>
+                            <td>${leaverequest.employeeid}</td>
+                            <td>${leaverequest.leavetype}</td>
+                            <td>${leaverequest.startdate}</td>
+                            <td>${leaverequest.enddate}</td>
+                            <td>${leaverequest.reason}</td>
+                            <td>${leaverequest.status}</td>
+                            <td>
+                                <button onclick="deleteLeaveRequest(${leaverequest.leaverequestid})" class="btn btn-danger">Delete</button>
+                            </td>
+                        `;
+                        leaverequestsTable.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error fetching leave requests:', error));
+        }
+
+        // Function to add a new leave request
+        function addNewLeaveRequest() {
+            const newLeaveRequestId = document.getElementById('new-leaverequest-id').value;
+            const newEmployeeId = document.getElementById('new-employee-id').value;
+            const newLeaveType = document.getElementById('new-leavetype').value;
+            const newStartDate = document.getElementById('new-startdate').value;
+            const newEndDate = document.getElementById('new-enddate').value;
+            const newReason = document.getElementById('new-reason').value;
+            const newStatus = document.getElementById('new-status').value;
+
+            fetch('/saveleaverequest', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    leaverequestid: newLeaveRequestId,
+                    employeeid: newEmployeeId,
+                    leavetype: newLeaveType,
+                    startdate: newStartDate,
+                    enddate: newEndDate,
+                    reason: newReason,
+                    status: newStatus,
+                }),
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data.message);
+                    fetchLeaveRequests(); // Refresh leave request data after adding a new request
+                    toggleAddLeaveRequestRow(); // Hide the "Add New Leave Request" row after adding
+                })
+                .catch(error => console.error('Error adding new leave request:', error));
+        }
+
+        // Function to delete a leave request
+        function deleteLeaveRequest(leaverequestIdToDelete) {
+            fetch(`/deleteleaverequest/${leaverequestIdToDelete}`, {
+                method: 'POST',
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data.message);
+                    fetchLeaveRequests(); // Refresh leave request data after deleting a request
+                })
+                .catch(error => console.error('Error deleting leave request:', error));
+        }
+
+        // Fetch and render leave request data when the page loads
+        fetchLeaveRequests();
+    </script>
+</body>
+</html>
