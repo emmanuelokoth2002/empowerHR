@@ -60,7 +60,7 @@ class user:
                             'roleid': user_obj.roleid,
                             'access_token': create_access_token(identity=user_obj.username)
                         }
-                        return jsonify({'successfully logged in'}), 200
+                        return jsonify(response_data), 200
                         # return render_template('dashboard.html', data=response_data)
 
                     else:
@@ -85,6 +85,7 @@ class user:
 
 
     @users_bp.route('/saveuser', methods=['POST'])
+    @jwt_required()
     def add_user():
         data = request.json
         userid = data.get('userid')
@@ -111,7 +112,7 @@ class user:
             return jsonify({'error': 'An error occurred'}), 500
 
     @users_bp.route('/getusers', methods=['GET'])
-    # @jwt_required()
+    @jwt_required()
     def get_users():
         try:
             db = Database()
@@ -140,6 +141,7 @@ class user:
             return jsonify({'error': 'An error occurred while fetching users'}), 500
 
     @users_bp.route('/getuser/<int:user_id>', methods=['GET'])
+    @jwt_required()
     def get_user(user_id):
         try:
             db = Database()
