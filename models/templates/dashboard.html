@@ -183,26 +183,82 @@
     </div>
 
     <script src="../static/js/index.js"></script>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+    
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+    
+        th {
+            background-color: #f2f2f2;
+        }
+    
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+    
+        .main-content {
+            padding: 20px;
+        }
+    </style>
+    
     <script>
         $(document).ready(function () {
             // Initial content to load on dashboard load
             loadContent('user.html');
-
+    
             // Function to load content from files
             function loadContent(file) {
                 $.ajax({
-                    url: file,
+                    url: "http://127.0.0.1:5000/getusers",
                     type: 'GET',
-                    dataType: 'html',
+                    dataType: 'json',  // Expecting JSON data
+                    headers: {
+                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwNjA0NDU0NywianRpIjoiMGUzOGUxN2ItMTRlOS00OWI5LTk0NWEtNzZlMGRlNjEyOWJlIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImdyYWNlIiwibmJmIjoxNzA2MDQ0NTQ3LCJjc3JmIjoiOTVmMDg2MTMtM2Y1My00NjVkLWI0M2ItOTc0MWI2N2Q2OTY3IiwiZXhwIjoxNzA2MDQ4MTQ3fQ.3OCWv-wjcUG_BvPYYJJONN7H1vvt7IhZOjMRGsPjxc8'
+                    },
+                    // headers: {
+                    // 'Authorization': 'Bearer ' + authToken
+                    // },
                     success: function (response) {
-                        $('.main-content').html(response);
+                        // Check if the response is an array
+                        if (Array.isArray(response)) {
+                            // Create an HTML table
+                            var table = '<table><tr><th>User ID</th><th>Username</th><th>Email</th></tr>';
+    
+                            // Iterate over the array and add rows to the table
+                            response.forEach(function (user) {
+                                table += '<tr>';
+                                table += '<td>' + user.userid + '</td>';
+                                table += '<td>' + user.username + '</td>';
+                                table += '<td>' + user.email + '</td>';
+                                table += '</tr>';
+                            });
+    
+                            table += '</table>';
+    
+                            // Replace the content of the .main-content div with the table
+                            $('.main-content').html(table);
+                        } else {
+                            console.error('Invalid response format');
+                        }
                     },
                     error: function (xhr) {
                         console.error('Error loading content:', xhr.statusText);
                     }
                 });
             }
-
+    
             // Navigation link clicks
             $('.sidebar a').click(function (event) {
                 event.preventDefault();
@@ -211,6 +267,7 @@
             });
         });
     </script>
+    
 </body>
 
 </html>
