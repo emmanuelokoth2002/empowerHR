@@ -1,179 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
-    <script type="text/javascript" charset="utf8" src="../static/js/script.js"></script>
-    <link rel="stylesheet" type="text/css" href="../static/styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Employees</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="../static/css/main.css" rel="stylesheet">
+    <!-- Add your CSS links here -->
+    <style>
+        .add-employee-row {
+            display: none;
+        }
+
+        .add-employee-row td {
+            padding: 5px;
+        }
+    </style>
 </head>
 <body>
-    <div class="main-content">
-        <div class="header">
-            <h2>
-                <label for="nav-toggle">
-                    <i class="fas fa-bars"></i>
-                </label>
-                Employees
-            </h2>
-
-            <div class="search-wrapper">
-               <i class="fas fa-search"></i>
-                <input type="text" name="search" id="search" placeholder="Search here ...">
-            </div>
-
-            <div class="user-wrapper">
-                <img src="../static/images/user.png"  height="40px" width="40px"alt="" class="profilephoto">
-                <div>
-                    <h4 class="username">System Administrator</h4>
-                    <small class="role">Admin Account</small>
-                </div>
-            </div>
-        </div>
-
-        <main id="dashboard">
-            <div id="notices" style="display:none">
-                <div class="mt-2 alert alert-success alert-dismissible fade show" role="alert">
-                    <strong><i class="fal fa-check-circle fa-lg"></i> Congratulations!</strong> Your password has been changed successfully.
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            </div>
-        </main>
-    </div>  
-    <div class="con">
-        <!-- Toggle button for sidebar -->
-        <div class="button bg-dark">
-            <button class="sidebar-toggle" onclick="toggleSidebar()">
-            <i class="bi bi-list"></i>
-            </button>
-        </div>
-    
-        <!-- sidenav -->
-        <div class="sidebar">
-
-            <div class="sidebar-brand">
-                <h2>
-                    <i class="fas fa-warehouse"></i><span>Home</span>
-                </h2>
-            </div>
-        
-            <div class="sidebar-menu">
-                <ul>
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/dashboard.html" class='validation' data-id=48 id="">
-                            <span><i class="fa-solid fa-gauge"></i></span>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-        
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/users.html" class='validation' data-id=2 id="">
-                            <span><i class="fa-solid fa-address-book"></i></span>
-                            <span>Users</span>
-                        </a>
-                    </li>
-        
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/employee.html" class='validation' data-id=49  id="categories">
-                            <span><i class="fa-solid fa-user-group"></i></span>
-                            <span>Employees</span>
-                        </a>
-                    </li>
-        
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/department.html" class='validation' data-id=55 id="">
-                            <span><i class="fa-solid fa-user-group"></i></span>
-                            <span>Departments</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/role.html" class='validation' data-id=55 id="">
-                            <span><i class="fa-solid fa-user-group"></i></span>
-                            <span>Roles</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/leaverequest.html" class='validation' data-id=55 id="">
-                            <span><i class="fa-solid fa-user-group"></i></span>
-                            <span>Leave Request</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/suggestions.html" class='validation' data-id=55 id="">
-                            <span><i class="fa-solid fa-user-group"></i></span>
-                            <span>Suggestions</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/complaints.html" class='validation' data-id=55 id="">
-                            <span><i class="fa-solid fa-user-group"></i></span>
-                            <span>Complaints</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/notifications.html" class='validation' data-id=55 id="">
-                            <span><i class="fa-solid fa-user-group"></i></span>
-                            <span>Notifications</span>
-                        </a>
-                    </li>
-        
-                     <li>
-                        <a href="settings.php" id="inventory" class='validation' data-id=14>
-                            <span><i class="fa-solid fa-gear"></i></span>
-                            <span>Settings</span>
-                        </a>
-                    </li>
-        
-        
-        
-                    <li>
-                        <a href="../controllers/useroperations.php?logoutuser" id="logoutuser">
-                            <span><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
-                            <span>Logout</span>
-                    </li>
-        
-                </ul>
-            </div> 
-        
-        </div>
-    
-                <!-- Other sidebar items -->
-            </ul>
-        </div>
-        <!-- sidenav -->
-    </div>
     <div class="container">
-        <table class="table table-hover table-success" id="employeestable">
-          <thead class="bg-info">
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">First Name</th>
-              <th scope="col">Last Name</th>
-              <th scope="col">Email</th>
-              <th scope="col">Date of Birth</th>
-              <th scope="col">Phone Number</th>
-              <th scope="col">Address</th>
-              <th scope="col">Hire Date</th>
-              <th scope="col">Role ID</th>
-              <th>&nbsp;</th> <!-- Edit Icon -->
-              <th>&nbsp;</th> <!-- Delete Icon -->
+        <h1>Employees</h1>
+        <!-- Path at the top of the page -->
+        <div id="path-container"></div>
+
+        <!-- "Add New Employee" button -->
+        <button onclick="toggleAddEmployeeRow()" class="btn btn-primary">Add New Employee</button>
+
+        <!-- Table to display employee information -->
+        <table border="1" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Employee ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Role ID</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="employees-table">
+                <!-- Employee data fetched from the database will be rendered here -->
+            </tbody>
+            <!-- Row to add a new employee -->
+            <tr class="add-employee-row">
+                <td><input type="number" id="new-employee-id" placeholder="Employee ID"></td>
+                <td><input type="text" id="new-first-name" placeholder="First Name"></td>
+                <td><input type="text" id="new-last-name" placeholder="Last Name"></td>
+                <td><input type="email" id="new-email" placeholder="Email"></td>
+                <td><input type="number" id="new-role-id" placeholder="Role ID"></td>
+                <td><button onclick="addNewEmployee()" class="btn btn-primary">Add</button></td>
             </tr>
-          </thead>
-          <tbody></tbody>
         </table>
-        <button type="button" class="btn btn-primary">Add Employee</button>
-      </div>
+    </div>
+
+    <!-- Your scripts, including Ajax to fetch employee data and handle form submissions -->
+    <script>
+        // Function to toggle the visibility of the "Add New Employee" row
+        function toggleAddEmployeeRow() {
+            const addEmployeeRow = document.querySelector('.add-employee-row');
+            addEmployeeRow.style.display = addEmployeeRow.style.display === 'none' ? 'table-row' : 'none';
+        }
+
+        // Function to fetch and render employee data
+        function fetchEmployees() {
+            // Your fetchEmployees function logic here
+            fetch('/getemployees') // Endpoint to get all employees
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(employees => {
+                    const employeesTable = document.getElementById('employees-table');
+                    employeesTable.innerHTML = ''; // Clear previous data
+
+                    employees.forEach(employee => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${employee.employeeid}</td>
+                            <td>${employee.firstname}</td>
+                            <td>${employee.lastname}</td>
+                            <td>${employee.email}</td>
+                            <td>${employee.roleid}</td>
+                            <td>
+                                <button onclick="deleteEmployee(${employee.employeeid})" class="btn btn-danger">Delete</button>
+                            </td>
+                        `;
+                        employeesTable.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error fetching employees:', error));
+        }
+
+        // Function to add a new employee
+        function addNewEmployee() {
+            const newEmployeeId = document.getElementById('new-employee-id').value;
+            const newFirstName = document.getElementById('new-first-name').value;
+            const newLastName = document.getElementById('new-last-name').value;
+            const newEmail = document.getElementById('new-email').value;
+            const newRoleId = document.getElementById('new-role-id').value;
+
+            fetch('/saveemployee', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    employeeid: newEmployeeId,
+                    firstname: newFirstName,
+                    lastname: newLastName,
+                    email: newEmail,
+                    roleid: newRoleId,
+                }),
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data.message);
+                    fetchEmployees(); // Refresh employee data after adding a new employee
+                    toggleAddEmployeeRow(); // Hide the "Add New Employee" row after adding
+                })
+                .catch(error => console.error('Error adding new employee:', error));
+        }
+
+        // Function to delete an employee
+        function deleteEmployee(employeeIdToDelete) {
+            fetch(`/deleteemployee/${employeeIdToDelete}`, {
+                method: 'POST',
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data.message);
+                    fetchEmployees(); // Refresh employee data after deleting an employee
+                })
+                .catch(error => console.error('Error deleting employee:', error));
+        }
+
+        // Fetch and render employee data when the page loads
+        fetchEmployees();
+    </script>
 </body>
 </html>

@@ -1,175 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>EmployeeHR</title>
+    <link rel="stylesheet" href="../static/dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
-    <script type="text/javascript" charset="utf8" src="../static/js/script.js"></script>
-    <link rel="stylesheet" type="text/css" href="../static/styles.css">
 </head>
+
 <body>
-    <div class="main-content">
-        <div class="header">
-            <h2>
-                <label for="nav-toggle">
-                    <i class="fas fa-bars"></i>
-                </label>
-                Dashboard
-            </h2>
-
-            <div class="search-wrapper">
-               <i class="fas fa-search"></i>
-                <input type="text" name="search" id="search" placeholder="Search here ...">
-            </div>
-
-            <div class="user-wrapper">
-                <img src="../static/images/user.png"  height="40px" width="40px"alt="" class="profilephoto">
-                <div>
-                    <h4 class="username">System Administrator</h4>
-                    <small class="role">Admin Account</small>
-                </div>
-            </div>
-        </div>
-
-        <main id="dashboard">
-            <div id="notices" style="display:none">
-                <div class="mt-2 alert alert-success alert-dismissible fade show" role="alert">
-                    <strong><i class="fal fa-check-circle fa-lg"></i> Congratulations!</strong> Your password has been changed successfully.
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            </div>
-        </main>
-    </div>  
-    <div class="con">
-        <!-- Toggle button for sidebar -->
-        <div class="button bg-dark">
-            <button class="sidebar-toggle" onclick="toggleSidebar()">
-            <i class="bi bi-list"></i>
-            </button>
-        </div>
-    
-        <!-- sidenav -->
-        <div class="sidebar">
-
-            <div class="sidebar-brand">
-                <h2>
-                    <i class="fas fa-warehouse"></i><span>Home</span>
-                </h2>
-            </div>
-        
-            <div class="sidebar-menu">
-                <ul>
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/dashboard.html" class='validation' data-id=48 id="">
-                            <span><i class="fa-solid fa-gauge"></i></span>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-        
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/users.html" class='validation' data-id=2 id="">
-                            <span><i class="fa-solid fa-address-book"></i></span>
-                            <span>Users</span>
-                        </a>
-                    </li>
-        
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/employee.html" class='validation' data-id=49  id="categories">
-                            <span><i class="fa-solid fa-user-group"></i></span>
-                            <span>Employees</span>
-                        </a>
-                    </li>
-        
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/department.html" class='validation' data-id=55 id="">
-                            <span><i class="fa-solid fa-user-group"></i></span>
-                            <span>Departments</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/role.html" class='validation' data-id=55 id="">
-                            <span><i class="fa-solid fa-user-group"></i></span>
-                            <span>Roles</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/leaverequest.html" class='validation' data-id=55 id="">
-                            <span><i class="fa-solid fa-user-group"></i></span>
-                            <span>Leave Request</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/suggestions.html" class='validation' data-id=55 id="">
-                            <span><i class="fa-solid fa-user-group"></i></span>
-                            <span>Suggestions</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/complaints.html" class='validation' data-id=55 id="">
-                            <span><i class="fa-solid fa-user-group"></i></span>
-                            <span>Complaints</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/notifications.html" class='validation' data-id=55 id="">
-                            <span><i class="fa-solid fa-user-group"></i></span>
-                            <span>Notifications</span>
-                        </a>
-                    </li>
-        
-                     <li>
-                        <a href="settings.php" id="inventory" class='validation' data-id=14>
-                            <span><i class="fa-solid fa-gear"></i></span>
-                            <span>Settings</span>
-                        </a>
-                    </li>
-        
-        
-        
-                    <li>
-                        <a href="../controllers/useroperations.php?logoutuser" id="logoutuser">
-                            <span><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
-                            <span>Logout</span>
-                    </li>
-        
-                </ul>
-            </div> 
-        
-        </div>
-    
-                <!-- Other sidebar items -->
-            </ul>
-        </div>
-        <!-- sidenav -->
-    </div>
     <div class="container">
-        <table class="table table-hover table-success" id="userstable">
-          <thead class="bg-info">
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Role ID</th>
-              <th scope="col">Username</th>
-              <th scope="col">password</th>
-              <th scope="col">Email</th>
-              <th>&nbsp;</th> <!-- Edit Icon -->
-              <th>&nbsp;</th> <!-- Delete Icon -->
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-        <button type="button" class="btn btn-primary">Add User</button>
-      </div>
+        <aside>
+            <div class="toggle">
+                <div class="logo">
+                    <h2>Employee<span class="danger">HR</span></h2>
+                </div>
+                <div class="close" id="close-btn">
+                    <span class="material-symbols-outlined">
+                        close
+                    </span>
+                </div>
+            </div>
+            <div class="sidebar">
+                <a href="#" class=>
+                    <span class="material-symbols-outlined">
+                        dashboard
+                    </span>
+                    <h3>Dashboard</h3>
+                </a>
+                <a href="analytics.html" class="active">
+                    <span class="material-symbols-outlined">
+                        monitoring
+                    </span>
+                    <h3>Analytics</h3>
+                </a>
+                <a href="user.html">
+                    <span class="material-symbols-outlined">
+                        person
+                    </span>
+                    <h3>Users</h3>
+                </a>
+                <a href="employee.html">
+                    <span class="material-symbols-outlined">
+                        people
+                    </span>
+                    <h3>Employees</h3>
+                </a>
+                <a href="department.html">
+                    <span class="material-symbols-outlined">
+                        business
+                    </span>
+                    <h3>Departments</h3>
+                </a>
+                <a href="leaverequest.html">
+                    <span class="material-symbols-outlined">
+                        location_away
+                    </span>
+                    <h3>Leave Request</h3>
+                </a>
+                <a href="complaint.html">
+                    <span class="material-symbols-outlined">
+                        pan_tool
+                    </span>
+                    <h3>Complaint</h3>
+                </a>
+                <a href="suggestion.html">
+                    <span class="material-symbols-outlined">
+                        forum
+                    </span>
+                    <h3>Suggestions</h3>
+                <!-- Other sidebar links... -->
+                <a href="dashboard.html" class="active">
+                    <span class="material-symbols-outlined">
+                        logout
+                    </span>
+                    <h3>Logout</h3>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content col-md-9">
+            <!-- Content sections will be displayed here -->
+        </main>
+        <!-- End of Main Content -->
+
+        <!-- Right Section -->
+        <div class="right-section">
+            <div class="nav">
+                <button id="menu-btn">
+                    <span class="material-symbols-outlined">
+                        menu
+                    </span>
+                </button>
+                <div class="dark-mode">
+                    <span class="material-symbols-outlined">
+                        light_mode
+                    </span>
+                    <span class="material-symbols-outlined">
+                        dark_mode
+                    </span>
+                </div>
+                <div class="profile">
+                    <div class="info">
+                        <p>Hey, <b>Reza</b></p>
+                        <small class="text-muted">Admin</small>
+                    </div>
+                    <div class="profile-photo">
+                        <img src="../static/images/user.png">
+                    </div>
+                </div>
+            </div>
+            <!-- End of Nav -->
+            <div class="user-profile">
+                <div class="logo">
+                    <img src="../static/images/logo.png">
+                    <h2>AsmrProg</h2>
+                    <p>Fullstack Web Developer</p>
+                </div>
+            </div>
+
+            <div class="reminders">
+                <div class="header">
+                    <h2>Reminders</h2>
+                    <span class="material-symbols-outlined">
+                        notifications
+                    </span>
+                </div>
+
+                <div class="notification">
+                    <div class="icon">
+                        <span class="material-symbols-outlined">
+                            volume_up
+                        </span>
+                    </div>
+                    <div class="content">
+                        <div class="info">
+                            <h3>Workshop</h3>
+                            <small class="text_muted">
+                                08:00 AM - 12:00 PM
+                            </small>
+                        </div>
+                        <span class="material-symbols-outlined">
+                            more_vert
+                        </span>
+                    </div>
+                </div>
+
+                <div class="notification deactive">
+                    <div class="icon">
+                        <span class="material-symbols-outlined">
+                            edit
+                        </span>
+                    </div>
+                    <div class="content">
+                        <div class="info">
+                            <h3>Workshop</h3>
+                            <small class="text_muted">
+                                08:00 AM - 12:00 PM
+                            </small>
+                        </div>
+                        <span class="material-symbols-outlined">
+                            more_vert
+                        </span>
+                    </div>
+                </div>
+
+                <div class="notification add-reminder">
+                    <div>
+                        <span class="material-icons-sharp">
+                            add
+                        </span>
+                        <h3>Add Reminder</h3>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- User info and reminders sections... -->
+        </div>
+    </div>
+
+    <script src="../static/js/index.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Initial content to load on dashboard load
+            loadContent('user.html');
+
+            // Function to load content from files
+            function loadContent(file) {
+                $.ajax({
+                    url: file,
+                    type: 'GET',
+                    dataType: 'html',
+                    success: function (response) {
+                        $('.main-content').html(response);
+                    },
+                    error: function (xhr) {
+                        console.error('Error loading content:', xhr.statusText);
+                    }
+                });
+            }
+
+            // Navigation link clicks
+            $('.sidebar a').click(function (event) {
+                event.preventDefault();
+                var contentFile = $(this).attr('href');
+                loadContent(contentFile);
+            });
+        });
+    </script>
 </body>
+
+</html>
+ 
+
 </html>

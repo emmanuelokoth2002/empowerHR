@@ -1,174 +1,149 @@
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
-    <script type="text/javascript" charset="utf8" src="../static/js/script.js"></script>
-    <link rel="stylesheet" type="text/css" href="../static/styles.css">
-</head>
-<body>
-    <div class="main-content">
-        <div class="header">
-            <h2>
-                <label for="nav-toggle">
-                    <i class="fas fa-bars"></i>
-                </label>
-                Suggestions
-            </h2>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Admin - Suggestions</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link href="../static/css/main.css" rel="stylesheet">
+        <!-- Add your CSS links here -->
+        <style>
+            .add-suggestion-row {
+                display: none;
+            }
 
-            <div class="search-wrapper">
-               <i class="fas fa-search"></i>
-                <input type="text" name="search" id="search" placeholder="Search here ...">
-            </div>
+            .add-suggestion-row td {
+                padding: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Suggestions</h1>
+            <!-- Path at the top of the page -->
+            <div id="path-container"></div>
 
-            <div class="user-wrapper">
-                <img src="../static/images/user.png"  height="40px" width="40px"alt="" class="profilephoto">
-                <div>
-                    <h4 class="username">System Administrator</h4>
-                    <small class="role">Admin Account</small>
-                </div>
-            </div>
+            <!-- "Add New Suggestion" button -->
+            <button onclick="toggleAddSuggestionRow()" class="btn btn-primary">Add New Suggestion</button>
+
+            <!-- Table to display suggestion information -->
+            <table border="1" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Suggestion ID</th>
+                        <th>Employee ID</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="suggestions-table">
+                    <!-- Suggestion data fetched from the database will be rendered here -->
+                </tbody>
+                <!-- Row to add a new suggestion -->
+                <tr class="add-suggestion-row">
+                    <td><input type="number" id="new-suggestion-id" placeholder="Suggestion ID"></td>
+                    <td><input type="number" id="new-employee-id" placeholder="Employee ID"></td>
+                    <td><input type="text" id="new-description" placeholder="Description"></td>
+                    <td><input type="text" id="new-status" placeholder="Status"></td>
+                    <td><button onclick="addNewSuggestion()" class="btn btn-primary">Add</button></td>
+                </tr>
+            </table>
         </div>
 
-        <main id="dashboard">
-            <div id="notices" style="display:none">
-                <div class="mt-2 alert alert-success alert-dismissible fade show" role="alert">
-                    <strong><i class="fal fa-check-circle fa-lg"></i> Congratulations!</strong> Your password has been changed successfully.
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            </div>
-        </main>
-    </div>  
-    <div class="con">
-        <!-- Toggle button for sidebar -->
-        <div class="button bg-dark">
-            <button class="sidebar-toggle" onclick="toggleSidebar()">
-            <i class="bi bi-list"></i>
-            </button>
-        </div>
-    
-        <!-- sidenav -->
-        <div class="sidebar">
+        <!-- Your scripts, including Ajax to fetch suggestion data and handle form submissions -->
+        <script>
+            // Function to toggle the visibility of the "Add New Suggestion" row
+            function toggleAddSuggestionRow() {
+                const addSuggestionRow = document.querySelector('.add-suggestion-row');
+                addSuggestionRow.style.display = addSuggestionRow.style.display === 'none' ? 'table-row' : 'none';
+            }
 
-            <div class="sidebar-brand">
-                <h2>
-                    <i class="fas fa-warehouse"></i><span>Home</span>
-                </h2>
-            </div>
-        
-            <div class="sidebar-menu">
-                <ul>
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/dashboard.html" class='validation' data-id=48 id="">
-                            <span><i class="fa-solid fa-gauge"></i></span>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-        
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/users.html" class='validation' data-id=2 id="">
-                            <span><i class="fa-solid fa-address-book"></i></span>
-                            <span>Users</span>
-                        </a>
-                    </li>
-        
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/employee.html" class='validation' data-id=49  id="categories">
-                            <span><i class="fa-solid fa-user-group"></i></span>
-                            <span>Employees</span>
-                        </a>
-                    </li>
-        
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/department.html" class='validation' data-id=55 id="">
-                            <span><i class="fa-solid fa-user-group"></i></span>
-                            <span>Departments</span>
-                        </a>
-                    </li>
+            // Function to fetch and render suggestion data
+            function fetchSuggestions() {
+                // Your fetchSuggestions function logic here
+                fetch('/getsuggestions') // Endpoint to get all suggestions
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(suggestions => {
+                        const suggestionsTable = document.getElementById('suggestions-table');
+                        suggestionsTable.innerHTML = ''; // Clear previous data
 
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/role.html" class='validation' data-id=55 id="">
-                            <span><i class="fa-solid fa-user-group"></i></span>
-                            <span>Roles</span>
-                        </a>
-                    </li>
+                        suggestions.forEach(suggestion => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${suggestion.suggestionid}</td>
+                                <td>${suggestion.employeeid}</td>
+                                <td>${suggestion.description}</td>
+                                <td>${suggestion.status}</td>
+                                <td>
+                                    <button onclick="deleteSuggestion(${suggestion.suggestionid})" class="btn btn-danger">Delete</button>
+                                </td>
+                            `;
+                            suggestionsTable.appendChild(row);
+                        });
+                    })
+                    .catch(error => console.error('Error fetching suggestions:', error));
+            }
 
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/leaverequest.html" class='validation' data-id=55 id="">
-                            <span><i class="fa-solid fa-user-group"></i></span>
-                            <span>Leave Request</span>
-                        </a>
-                    </li>
+            // Function to add a new suggestion
+            function addNewSuggestion() {
+                const newSuggestionId = document.getElementById('new-suggestion-id').value;
+                const newEmployeeId = document.getElementById('new-employee-id').value;
+                const newDescription = document.getElementById('new-description').value;
+                const newStatus = document.getElementById('new-status').value;
 
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/suggestions.html" class='validation' data-id=55 id="">
-                            <span><i class="fa-solid fa-user-group"></i></span>
-                            <span>Suggestions</span>
-                        </a>
-                    </li>
+                fetch('/savesuggestion', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        suggestionid: newSuggestionId,
+                        employeeid: newEmployeeId,
+                        description: newDescription,
+                        status: newStatus,
+                    }),
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data.message);
+                        fetchSuggestions(); // Refresh suggestion data after adding a new suggestion
+                        toggleAddSuggestionRow(); // Hide the "Add New Suggestion" row after adding
+                    })
+                    .catch(error => console.error('Error adding new suggestion:', error));
+            }
 
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/complaints.html" class='validation' data-id=55 id="">
-                            <span><i class="fa-solid fa-user-group"></i></span>
-                            <span>Complaints</span>
-                        </a>
-                    </li>
+            // Function to delete a suggestion
+            function deleteSuggestion(suggestionIdToDelete) {
+                fetch(`/deletesuggestion/${suggestionIdToDelete}`, {
+                    method: 'POST',
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data.message);
+                        fetchSuggestions(); // Refresh suggestion data after deleting a suggestion
+                    })
+                    .catch(error => console.error('Error deleting suggestion:', error));
+            }
 
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/notifications.html" class='validation' data-id=55 id="">
-                            <span><i class="fa-solid fa-user-group"></i></span>
-                            <span>Notifications</span>
-                        </a>
-                    </li>
-        
-                     <li>
-                        <a href="settings.php" id="inventory" class='validation' data-id=14>
-                            <span><i class="fa-solid fa-gear"></i></span>
-                            <span>Settings</span>
-                        </a>
-                    </li>
-        
-        
-        
-                    <li>
-                        <a href="../controllers/useroperations.php?logoutuser" id="logoutuser">
-                            <span><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
-                            <span>Logout</span>
-                    </li>
-        
-                </ul>
-            </div> 
-        
-        </div>
-    
-                <!-- Other sidebar items -->
-            </ul>
-        </div>
-        <!-- sidenav -->
-    </div>
-    <div class="container">
-        <table class="table table-hover table-success" id="suggestiontable">
-          <thead class="bg-info">
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Employee ID</th>
-              <th scope="col">Description</th>
-              <th scope="col">Status</th>
-              <th>&nbsp;</th> <!-- Edit Icon -->
-              <th>&nbsp;</th> <!-- Delete Icon -->
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-        <button type="button" class="btn btn-primary">Add User</button>
-      </div>
-</body>
+            // Fetch and render suggestion data when the page loads
+            fetchSuggestions();
+        </script>
+    </body>
 </html>

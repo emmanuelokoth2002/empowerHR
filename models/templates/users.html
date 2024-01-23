@@ -1,175 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
-    <script type="text/javascript" charset="utf8" src="../static/js/script.js"></script>
-    <link rel="stylesheet" type="text/css" href="../static/styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Users</title>
+    <!-- Add your CSS links here -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="../static/css/main.css" rel="stylesheet">
+    <style>
+        .add-user-row {
+            display: none;
+        }
+
+        .add-user-row td {
+            padding: 5px;
+        }
+    </style>
 </head>
 <body>
-    <div class="main-content">
-        <div class="header">
-            <h2>
-                <label for="nav-toggle">
-                    <i class="fas fa-bars"></i>
-                </label>
-                Users
-            </h2>
-
-            <div class="search-wrapper">
-               <i class="fas fa-search"></i>
-                <input type="text" name="search" id="search" placeholder="Search here ...">
-            </div>
-
-            <div class="user-wrapper">
-                <img src="../static/images/user.png"  height="40px" width="40px"alt="" class="profilephoto">
-                <div>
-                    <h4 class="username">System Administrator</h4>
-                    <small class="role">Admin Account</small>
-                </div>
-            </div>
-        </div>
-
-        <main id="dashboard">
-            <div id="notices" style="display:none">
-                <div class="mt-2 alert alert-success alert-dismissible fade show" role="alert">
-                    <strong><i class="fal fa-check-circle fa-lg"></i> Congratulations!</strong> Your password has been changed successfully.
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            </div>
-        </main>
-    </div>  
-    <div class="con">
-        <!-- Toggle button for sidebar -->
-        <div class="button bg-dark">
-            <button class="sidebar-toggle" onclick="toggleSidebar()">
-            <i class="bi bi-list"></i>
-            </button>
-        </div>
-    
-        <!-- sidenav -->
-        <div class="sidebar">
-
-            <div class="sidebar-brand">
-                <h2>
-                    <i class="fas fa-warehouse"></i><span>Home</span>
-                </h2>
-            </div>
-        
-            <div class="sidebar-menu">
-                <ul>
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/dashboard.html" class='validation' data-id=48 id="">
-                            <span><i class="fa-solid fa-gauge"></i></span>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-        
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/users.html" class='validation' data-id=2 id="">
-                            <span><i class="fa-solid fa-address-book"></i></span>
-                            <span>Users</span>
-                        </a>
-                    </li>
-        
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/employee.html" class='validation' data-id=49  id="categories">
-                            <span><i class="fa-solid fa-user-group"></i></span>
-                            <span>Employees</span>
-                        </a>
-                    </li>
-        
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/department.html" class='validation' data-id=55 id="">
-                            <span><i class="fa-solid fa-user-group"></i></span>
-                            <span>Departments</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/role.html" class='validation' data-id=55 id="">
-                            <span><i class="fa-solid fa-user-group"></i></span>
-                            <span>Roles</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/leaverequest.html" class='validation' data-id=55 id="">
-                            <span><i class="fa-solid fa-user-group"></i></span>
-                            <span>Leave Request</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/suggestions.html" class='validation' data-id=55 id="">
-                            <span><i class="fa-solid fa-user-group"></i></span>
-                            <span>Suggestions</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/complaints.html" class='validation' data-id=55 id="">
-                            <span><i class="fa-solid fa-user-group"></i></span>
-                            <span>Complaints</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/notifications.html" class='validation' data-id=55 id="">
-                            <span><i class="fa-solid fa-user-group"></i></span>
-                            <span>Notifications</span>
-                        </a>
-                    </li>
-        
-                     <li>
-                        <a href="settings.php" id="inventory" class='validation' data-id=14>
-                            <span><i class="fa-solid fa-gear"></i></span>
-                            <span>Settings</span>
-                        </a>
-                    </li>
-        
-        
-        
-                    <li>
-                        <a href="../controllers/useroperations.php?logoutuser" id="logoutuser">
-                            <span><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
-                            <span>Logout</span>
-                    </li>
-        
-                </ul>
-            </div> 
-        
-        </div>
-    
-                <!-- Other sidebar items -->
-            </ul>
-        </div>
-        <!-- sidenav -->
-    </div>
-    <div class="container">
-        <table class="table table-hover table-success" id="userstable">
-          <thead class="bg-info">
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Role ID</th>
-              <th scope="col">Username</th>
-              <th scope="col">password</th>
-              <th scope="col">Email</th>
-              <th>&nbsp;</th> <!-- Edit Icon -->
-              <th>&nbsp;</th> <!-- Delete Icon -->
+    <div class="container"
+        <!-- Table to display user information -->
+        <button onclick="toggleAddRoleRow()" class="btn btn-primary">Add New User</button>
+        <table border="1" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="users-table">
+                <!-- User data fetched from the database will be rendered here -->
+            </tbody>
+            <!-- Row to add a new user -->
+            <tr class="add-user-row">
+                <td><input type="number" id="new-user-id" placeholder="User ID"></td>
+                <td><input type="text" id="new-username" placeholder="Username"></td>
+                <td><input type="email" id="new-email" placeholder="Email"></td>
+                <td><button onclick="addNewUser()" class="btn btn-primary">Add</button></td>
             </tr>
-          </thead>
-          <tbody></tbody>
         </table>
-        <button type="button" class="btn btn-primary">Add User</button>
-      </div>
+    </div>
+
+    <!-- The scripts, including Ajax to fetch and display user data -->
+    <script>
+        function toggleAddRoleRow() {
+            const addRoleRow = document.querySelector('.add-user-row');
+            addRoleRow.style.display = addRoleRow.style.display === 'none' ? 'table-row' : 'none';
+        }
+        // Perform an Ajax request to fetch user data from the server
+        // Parse the retrieved data and populate the table
+        fetch('/getallusers') // Endpoint to get all users
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(users => {
+                const usersTable = document.getElementById('users-table');
+                users.forEach(user => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${user.user_id}</td>
+                        <td>${user.username}</td>
+                        <td>${user.email}</td>
+                        <td>
+                            <button onclick="deleteRole(${role.roleid})" class="btn btn-primary">Delete</button>
+                        </td>
+                    `;
+                    usersTable.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Error fetching users:', error));
+
+            function addNewUser() {
+            const newUserId = document.getElementById('new-user-id').value;
+            const newusername = document.getElementById('new-username').value;
+            const newemail = document.getElementById('new-email').value;
+
+            fetch('/addusers', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userid: newUserId, username: newUserName, email: newemail }),
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data.message);
+                    fetchRoles(); // Refresh role data after adding a new role
+                    toggleAddRoleRow(); // Hide the "Add New Role" row after adding
+                })
+                .catch(error => console.error('Error adding new user:', error));
+        }
+
+        function deleteRole(roleIdToDelete) {
+            fetch(`/deleterole/${roleIdToDelete}`, {
+                method: 'POST',
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data.message);
+                    fetchRoles(); // Refresh role data after deleting a role
+                })
+                .catch(error => console.error('Error deleting role:', error));
+        }
+
+        function deleteRole(roleIdToDelete) {
+            fetch(`/deleteuser/${roleIdToDelete}`, {
+                method: 'POST',
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data.message);
+                    fetchRoles(); // Refresh role data after deleting a role
+                })
+                .catch(error => console.error('Error deleting role:', error));
+        }
+
+        fetchUsers(); // Fetch user data on page load
+
+    </script>
 </body>
 </html>

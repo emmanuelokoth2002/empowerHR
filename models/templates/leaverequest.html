@@ -1,176 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
-    <script type="text/javascript" charset="utf8" src="../static/js/script.js"></script>
-    <link rel="stylesheet" type="text/css" href="../static/styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Leave Requests</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="../static/css/main.css" rel="stylesheet">
+    <!-- Add your CSS links here -->
+    <style>
+        .add-leaverequest-row {
+            display: none;
+        }
+
+        .add-leaverequest-row td {
+            padding: 5px;
+        }
+    </style>
 </head>
 <body>
-    <div class="main-content">
-        <div class="header">
-            <h2>
-                <label for="nav-toggle">
-                    <i class="fas fa-bars"></i>
-                </label>
-                Dashboard
-            </h2>
-
-            <div class="search-wrapper">
-               <i class="fas fa-search"></i>
-                <input type="text" name="search" id="search" placeholder="Search here ...">
-            </div>
-
-            <div class="user-wrapper">
-                <img src="../static/images/user.png"  height="40px" width="40px"alt="" class="profilephoto">
-                <div>
-                    <h4 class="username">System Administrator</h4>
-                    <small class="role">Admin Account</small>
-                </div>
-            </div>
-        </div>
-
-        <main id="dashboard">
-            <div id="notices" style="display:none">
-                <div class="mt-2 alert alert-success alert-dismissible fade show" role="alert">
-                    <strong><i class="fal fa-check-circle fa-lg"></i> Congratulations!</strong> Your password has been changed successfully.
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            </div>
-        </main>
-    </div>  
-    <div class="con">
-        <!-- Toggle button for sidebar -->
-        <div class="button bg-dark">
-            <button class="sidebar-toggle" onclick="toggleSidebar()">
-            <i class="bi bi-list"></i>
-            </button>
-        </div>
-    
-        <!-- sidenav -->
-        <div class="sidebar">
-
-            <div class="sidebar-brand">
-                <h2>
-                    <i class="fas fa-warehouse"></i><span>Home</span>
-                </h2>
-            </div>
-        
-            <div class="sidebar-menu">
-                <ul>
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/dashboard.html" class='validation' data-id=48 id="">
-                            <span><i class="fa-solid fa-gauge"></i></span>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-        
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/users.html" class='validation' data-id=2 id="">
-                            <span><i class="fa-solid fa-address-book"></i></span>
-                            <span>Users</span>
-                        </a>
-                    </li>
-        
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/employee.html" class='validation' data-id=49  id="categories">
-                            <span><i class="fa-solid fa-user-group"></i></span>
-                            <span>Employees</span>
-                        </a>
-                    </li>
-        
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/department.html" class='validation' data-id=55 id="">
-                            <span><i class="fa-solid fa-user-group"></i></span>
-                            <span>Departments</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/role.html" class='validation' data-id=55 id="">
-                            <span><i class="fa-solid fa-user-group"></i></span>
-                            <span>Roles</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/leaverequest.html" class='validation' data-id=55 id="">
-                            <span><i class="fa-solid fa-user-group"></i></span>
-                            <span>Leave Request</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/suggestions.html" class='validation' data-id=55 id="">
-                            <span><i class="fa-solid fa-user-group"></i></span>
-                            <span>Suggestions</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/complaints.html" class='validation' data-id=55 id="">
-                            <span><i class="fa-solid fa-user-group"></i></span>
-                            <span>Complaints</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="file:///C:/Users/emman/Desktop/Home/empowerHR/models/templates/notifications.html" class='validation' data-id=55 id="">
-                            <span><i class="fa-solid fa-user-group"></i></span>
-                            <span>Notifications</span>
-                        </a>
-                    </li>
-        
-                     <li>
-                        <a href="settings.php" id="inventory" class='validation' data-id=14>
-                            <span><i class="fa-solid fa-gear"></i></span>
-                            <span>Settings</span>
-                        </a>
-                    </li>
-        
-        
-        
-                    <li>
-                        <a href="../controllers/useroperations.php?logoutuser" id="logoutuser">
-                            <span><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
-                            <span>Logout</span>
-                    </li>
-        
-                </ul>
-            </div> 
-        
-        </div>
-    
-                <!-- Other sidebar items -->
-            </ul>
-        </div>
-        <!-- sidenav -->
-    </div>
     <div class="container">
-        <table class="table table-hover table-success" id="leaverequesttable">
-          <thead class="bg-info">
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Employee ID</th>
-              <th scope="col">Leave Type</th>
-              <th scope="col">Start Date</th>
-              <th scope="col">End Date</th>
-              <th scope="col">Status</th>
-              <th>&nbsp;</th> <!-- Edit Icon -->
-              <th>&nbsp;</th> <!-- Delete Icon -->
+        <h1>Leave Requests</h1>
+        <!-- Path at the top of the page -->
+        <div id="path-container"></div>
+
+        <!-- "Add New Leave Request" button -->
+        <button onclick="toggleAddLeaveRequestRow()" class="btn btn-primary">Add New Leave Request</button>
+
+        <!-- Table to display leave request information -->
+        <table border="1" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Leave Request ID</th>
+                    <th>Employee ID</th>
+                    <th>Leave Type</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Reason</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="leaverequests-table">
+                <!-- Leave request data fetched from the database will be rendered here -->
+            </tbody>
+            <!-- Row to add a new leave request -->
+            <tr class="add-leaverequest-row">
+                <td><input type="number" id="new-leaverequest-id" placeholder="Leave Request ID"></td>
+                <td><input type="number" id="new-employee-id" placeholder="Employee ID"></td>
+                <td><input type="text" id="new-leavetype" placeholder="Leave Type"></td>
+                <td><input type="date" id="new-startdate"></td>
+                <td><input type="date" id="new-enddate"></td>
+                <td><input type="text" id="new-reason" placeholder="Reason"></td>
+                <td><input type="text" id="new-status" placeholder="Status"></td>
+                <td><button onclick="addNewLeaveRequest()" class="btn btn-primary">Add</button></td>
             </tr>
-          </thead>
-          <tbody></tbody>
         </table>
-        <button type="button" class="btn btn-primary">Add Leave Request</button>
-      </div>
+    </div>
+
+    <!-- Your scripts, including Ajax to fetch leave request data and handle form submissions -->
+    <script>
+        // Function to toggle the visibility of the "Add New Leave Request" row
+        function toggleAddLeaveRequestRow() {
+            const addLeaveRequestRow = document.querySelector('.add-leaverequest-row');
+            addLeaveRequestRow.style.display = addLeaveRequestRow.style.display === 'none' ? 'table-row' : 'none';
+        }
+
+        // Function to fetch and render leave request data
+        function fetchLeaveRequests() {
+            // Your fetchLeaveRequests function logic here
+            fetch('/getleaverequests') // Endpoint to get all leave requests
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(leaverequests => {
+                    const leaverequestsTable = document.getElementById('leaverequests-table');
+                    leaverequestsTable.innerHTML = ''; // Clear previous data
+
+                    leaverequests.forEach(leaverequest => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${leaverequest.leaverequestid}</td>
+                            <td>${leaverequest.employeeid}</td>
+                            <td>${leaverequest.leavetype}</td>
+                            <td>${leaverequest.startdate}</td>
+                            <td>${leaverequest.enddate}</td>
+                            <td>${leaverequest.reason}</td>
+                            <td>${leaverequest.status}</td>
+                            <td>
+                                <button onclick="deleteLeaveRequest(${leaverequest.leaverequestid})" class="btn btn-danger">Delete</button>
+                            </td>
+                        `;
+                        leaverequestsTable.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error fetching leave requests:', error));
+        }
+
+        // Function to add a new leave request
+        function addNewLeaveRequest() {
+            const newLeaveRequestId = document.getElementById('new-leaverequest-id').value;
+            const newEmployeeId = document.getElementById('new-employee-id').value;
+            const newLeaveType = document.getElementById('new-leavetype').value;
+            const newStartDate = document.getElementById('new-startdate').value;
+            const newEndDate = document.getElementById('new-enddate').value;
+            const newReason = document.getElementById('new-reason').value;
+            const newStatus = document.getElementById('new-status').value;
+
+            fetch('/saveleaverequest', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    leaverequestid: newLeaveRequestId,
+                    employeeid: newEmployeeId,
+                    leavetype: newLeaveType,
+                    startdate: newStartDate,
+                    enddate: newEndDate,
+                    reason: newReason,
+                    status: newStatus,
+                }),
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data.message);
+                    fetchLeaveRequests(); // Refresh leave request data after adding a new request
+                    toggleAddLeaveRequestRow(); // Hide the "Add New Leave Request" row after adding
+                })
+                .catch(error => console.error('Error adding new leave request:', error));
+        }
+
+        // Function to delete a leave request
+        function deleteLeaveRequest(leaverequestIdToDelete) {
+            fetch(`/deleteleaverequest/${leaverequestIdToDelete}`, {
+                method: 'POST',
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data.message);
+                    fetchLeaveRequests(); // Refresh leave request data after deleting a request
+                })
+                .catch(error => console.error('Error deleting leave request:', error));
+        }
+
+        // Fetch and render leave request data when the page loads
+        fetchLeaveRequests();
+    </script>
 </body>
 </html>
