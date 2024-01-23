@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,800;1,500&display=swap');
 
 :root {
-    --color-primary: #0e3b6a;
+    --color-primary: #00a8ff;
     --color-danger: #ff0060;
     --color-success: #00b300;
     --color-warning: #ffcc00;
@@ -379,21 +379,26 @@ main .recent-orders a{
     color: var(--color-primary);
 }
 
-.right-section{
+/* Right Section */
+
+.right-section {
     margin-top: 1.4rem;
 }
 
-.right-section .nav{
+.right-section .nav {
     display: flex;
-    justify-content: end;
-    gap: 2rem;
+    align-items: center;
+    justify-content: space-between; /* This will evenly space the child elements */
+    gap: 2rem; /* Adjust the gap as needed */
 }
 
-.right-section .nav button{
-    display: none;
+.right-section .nav button {
+    /* Add any styling for your menu button */
+    display: inline-block;
 }
 
-.right-section .dark-mode{
+.right-section .dark-mode {
+    /* Add any styling for your dark mode element */
     background-color: var(--color-light);
     display: flex;
     justify-content: space-between;
@@ -404,35 +409,24 @@ main .recent-orders a{
     border-radius: var(--border-radius-1);
 }
 
-.right-section .dark-mode span{
-    font-size: 1.2rem;
-    width: 50%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.right-section .dark-mode span.active{
-    background-color: var(--color-primary);
-    color: white;
-    border-radius: var(--border-radius-1);
-}
-
-.right-section .nav .profile{
+.right-section .nav .profile {
     display: flex;
     gap: 2rem;
+    align-items: center;
     text-align: right;
 }
 
-.right-section .nav .profile .profile-photo{
+.right-section .nav .profile .profile-photo {
     width: 2.8rem;
     height: 2.8rem;
     border-radius: 50%;
     overflow: hidden;
 }
 
-.right-section .user-profile{
+/* Additional styles for profile info if needed */
+
+.right-section .user-profile {
+    /* Add any styling for your user profile */
     display: flex;
     justify-content: center;
     text-align: center;
@@ -445,21 +439,16 @@ main .recent-orders a{
     transition: all 0.3s ease;
 }
 
-.right-section .user-profile:hover{
-    box-shadow: none;
-}
-
-.right-section .user-profile img{
+.right-section .user-profile img {
     width: 11rem;
     height: auto;
     margin-bottom: 0.8rem;
     border-radius: 50%;
 }
 
-.right-section .user-profile h2{
+.right-section .user-profile h2 {
     margin-bottom: 0.2rem;
 }
-
 .right-section .reminders{
     margin-top: 2rem;
 }
