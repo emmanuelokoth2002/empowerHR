@@ -46,7 +46,7 @@
     <!-- The scripts, including Ajax to fetch and display user data -->
     <script>
         // Replace 'your_token_here' with the actual token value
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwNjAyNTczMiwianRpIjoiZjA4ZWY5OGYtYmE4OS00OGY2LWEzZTMtOGQ4NDJhNTc2MjBlIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFkbWluIiwibmJmIjoxNzA2MDI1NzMyLCJjc3JmIjoiNmM1YmQxY2UtMjM3ZC00Y2Q2LWFkNDAtN2VlMWEzZWRkZTNiIiwiZXhwIjoxNzA2MDI5MzMyfQ.NeKuNfnkDBVdEOvUgi-TK7rLPzYKNBIRIuHSY2qcao8';
+        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwNjA2OTQ4MiwianRpIjoiZjNmOGRmZmQtNzA1Zi00YTY3LWIyNGQtMGYyMWE5Y2YwNDNlIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImdyYWNlIiwibmJmIjoxNzA2MDY5NDgyLCJjc3JmIjoiMjhkMDQwNWMtMDgwMi00NWUxLTg4MWEtNGRjNjBmM2UwZGFiIiwiZXhwIjoxNzA2MDczMDgyfQ.E9wd3951wdfzYC4gYscmXH69-Lhm-h3DeooQTg4PX9U';
 
         function toggleAddUserRow() {
             const addUserRow = document.querySelector('.add-user-row');
@@ -56,7 +56,7 @@
         function fetchUsers() {
             fetch('http://127.0.0.1:5000/getusers', {
                 headers: {
-                    'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwNjAyNTczMiwianRpIjoiZjA4ZWY5OGYtYmE4OS00OGY2LWEzZTMtOGQ4NDJhNTc2MjBlIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFkbWluIiwibmJmIjoxNzA2MDI1NzMyLCJjc3JmIjoiNmM1YmQxY2UtMjM3ZC00Y2Q2LWFkNDAtN2VlMWEzZWRkZTNiIiwiZXhwIjoxNzA2MDI5MzMyfQ.NeKuNfnkDBVdEOvUgi-TK7rLPzYKNBIRIuHSY2qcao8`,
+                    'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwNjA2OTQ4MiwianRpIjoiZjNmOGRmZmQtNzA1Zi00YTY3LWIyNGQtMGYyMWE5Y2YwNDNlIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImdyYWNlIiwibmJmIjoxNzA2MDY5NDgyLCJjc3JmIjoiMjhkMDQwNWMtMDgwMi00NWUxLTg4MWEtNGRjNjBmM2UwZGFiIiwiZXhwIjoxNzA2MDczMDgyfQ.E9wd3951wdfzYC4gYscmXH69-Lhm-h3DeooQTg4PX9U`,
                     'Content-Type': 'application/json',
                 },
             })
@@ -72,11 +72,11 @@
                 users.forEach(user => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
-                        <td>${user.user_id}</td>
+                        <td>${user.userid}</td>
                         <td>${user.username}</td>
                         <td>${user.email}</td>
                         <td>
-                            <button onclick="deleteUser(${user.user_id})" class="btn btn-primary">Delete</button>
+                            <button onclick="deleteUser(${user.userid})" class="btn btn-primary">Delete</button>
                         </td>
                     `;
                     usersTable.appendChild(row);

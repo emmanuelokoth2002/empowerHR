@@ -52,8 +52,8 @@ class Complaint:
             complaints_data = db.get_data(query, multi=True)
 
             field_names = [
-                'complaint_id',
-                'employee_id',
+                'complaintid',
+                'employeeid',
                 'department',
                 'issue',
                 'status',

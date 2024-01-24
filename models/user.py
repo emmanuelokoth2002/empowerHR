@@ -134,7 +134,7 @@ class user:
                 users_list.append(user_info)
 
             return jsonify(users_list), 200
-            # return render_template('dashboard.html')
+            # return render_template('dashboard.html',user_data=users_list)
 
         except Exception as e:
             print("Error fetching users:", str(e))

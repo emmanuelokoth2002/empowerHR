@@ -63,9 +63,13 @@
         }
 
         // Function to fetch and render complaint data
-        function fetchComplaints() {
-            // Your fetchComplaints function logic here
-            fetch('/getcomplaints') // Endpoint to get all complaints
+        function fetchUsers() {
+            fetch('http://127.0.0.1:5000/getcomplaints', {
+                headers: {
+                    'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwNjA2OTQ4MiwianRpIjoiZjNmOGRmZmQtNzA1Zi00YTY3LWIyNGQtMGYyMWE5Y2YwNDNlIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImdyYWNlIiwibmJmIjoxNzA2MDY5NDgyLCJjc3JmIjoiMjhkMDQwNWMtMDgwMi00NWUxLTg4MWEtNGRjNjBmM2UwZGFiIiwiZXhwIjoxNzA2MDczMDgyfQ.E9wd3951wdfzYC4gYscmXH69-Lhm-h3DeooQTg4PX9U`,
+                    'Content-Type': 'application/json',
+                },
+                })
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
@@ -79,14 +83,14 @@
                     complaints.forEach(complaint => {
                         const row = document.createElement('tr');
                         row.innerHTML = `
-                            <td>${complaint.complaint_id}</td>
-                            <td>${complaint.employee_id}</td>
+                            <td>${complaint.complaintid}</td>
+                            <td>${complaint.employeeid}</td>
                             <td>${complaint.department}</td>
                             <td>${complaint.issue}</td>
                             <td>${complaint.status}</td>
                             <td>${complaint.created_at}</td>
                             <td>
-                                <button onclick="deleteComplaint(${complaint.complaint_id})" class="btn btn-danger">Delete</button>
+                                <button onclick="deleteComplaint(${complaint.complaintid})" class="btn btn-danger">Delete</button>
                             </td>
                         `;
                         complaintsTable.appendChild(row);
