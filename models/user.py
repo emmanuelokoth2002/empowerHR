@@ -179,4 +179,4 @@ class user:
 
         except Exception as e:
             print("Error:", e)
-            return jsonify({'error': 'An error occurred'}), 500
+            return jsonify({'error': 'An error occurred'}), 500 
