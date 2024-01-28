@@ -100,7 +100,8 @@
                     // Check for any indicator of success, like the presence of an access token
                     if (data.access_token) {
                         // Redirect to the dashboard.html page
-                        window.location.href = '/dashboard';
+                        document.cookie = `accessToken=${data.access_token}; path=/;`;
+                        window.location.href = 'http://127.0.0.1:5500/models/templates/dashboard.html';
                     } else {
                         // Handle unsuccessful login (e.g., display an error message)
                         console.error('Login failed:', data.message);

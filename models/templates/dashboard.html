@@ -215,9 +215,6 @@
     
     <script>
         $(document).ready(function () {
-            // Initial content to load on dashboard load
-            loadContent('user.html');
-    
             // Function to load content from files
             function loadContent(file) {
                 $.ajax({
@@ -225,11 +222,8 @@
                     type: 'GET',
                     dataType: 'json',  // Expecting JSON data
                     headers: {
-                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwNjA2OTQ4MiwianRpIjoiZjNmOGRmZmQtNzA1Zi00YTY3LWIyNGQtMGYyMWE5Y2YwNDNlIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImdyYWNlIiwibmJmIjoxNzA2MDY5NDgyLCJjc3JmIjoiMjhkMDQwNWMtMDgwMi00NWUxLTg4MWEtNGRjNjBmM2UwZGFiIiwiZXhwIjoxNzA2MDczMDgyfQ.E9wd3951wdfzYC4gYscmXH69-Lhm-h3DeooQTg4PX9U'
+                        'Authorization': 'Bearer ' + getCookie('accessToken') // Retrieve the access token from cookies
                     },
-                    // headers: {
-                    // 'Authorization': 'Bearer ' + authToken
-                    // },
                     success: function (response) {
                         // Check if the response is an array
                         if (Array.isArray(response)) {
@@ -258,6 +252,26 @@
                     }
                 });
             }
+    
+            // Function to retrieve cookie value by name
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = cookies[i].trim();
+                        // Check if the cookie contains the desired name
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+    
+            // Initial content to load on dashboard load
+            loadContent('user.html');
     
             // Navigation link clicks
             $('.sidebar a').click(function (event) {
