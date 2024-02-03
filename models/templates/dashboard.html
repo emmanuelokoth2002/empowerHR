@@ -71,7 +71,7 @@
                     </span>
                     <h3>Suggestions</h3>
                 <!-- Other sidebar links... -->
-                <a href="dashboard.html" class="active">
+                <a href="#" class="active" id="logout-btn">
                     <span class="material-symbols-outlined">
                         logout
                     </span>
@@ -252,6 +252,23 @@
                     }
                 });
             }
+
+            $('#logout-btn').click(function (event) {
+                event.preventDefault();
+                // Send logout request to Flask route
+                $.ajax({
+                    url: '127.0.0.1:5000/logout',
+                    type: 'POST',
+                    success: function (response) {
+                        console.log('Logout successful');
+                        // Redirect to landing page after logout
+                        window.location.href = '127.0.0.1:5000/';
+                    },
+                    error: function (xhr) {
+                        console.error('Error logging out:', xhr.statusText);
+                    }
+                });
+            });
     
             // Function to retrieve cookie value by name
             function getCookie(name) {
@@ -283,8 +300,5 @@
     </script>
     
 </body>
-
-</html>
- 
 
 </html>
