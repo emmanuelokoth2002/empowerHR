@@ -71,7 +71,7 @@
                     </span>
                     <h3>Suggestions</h3>
                 <!-- Other sidebar links... -->
-                <a href="#" class="active" id="logout-btn">
+                <a href="http://127.0.0.1:5000//logout" class="active" id="logout-btn">
                     <span class="material-symbols-outlined">
                         logout
                     </span>
@@ -257,12 +257,12 @@
                 event.preventDefault();
                 // Send logout request to Flask route
                 $.ajax({
-                    url: '127.0.0.1:5000/logout',
+                    url: 'http://127.0.0.1:5000/logout',
                     type: 'POST',
                     success: function (response) {
                         console.log('Logout successful');
                         // Redirect to landing page after logout
-                        window.location.href = '127.0.0.1:5000/';
+                        window.location.href = 'http://127.0.0.1:5000/';
                     },
                     error: function (xhr) {
                         console.error('Error logging out:', xhr.statusText);

@@ -67,7 +67,7 @@ class user:
 
     
     @users_bp.route('/logout', methods=['POST'])
-    @jwt_required()
+    @jwt_required(optional=True)
     def logout():
         resp = jsonify({'logout': True})
         unset_jwt_cookies(resp)
